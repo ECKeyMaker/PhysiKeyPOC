@@ -6,7 +6,7 @@ import { useRoute } from '@react-navigation/native';
 import Config from 'react-native-config';
 import Web3 from 'web3';
 import CryptoJS from 'crypto-js';
-import fetch from 'node-fetch';
+import axios from 'axios';
 
 function AccountDisplay() {
   const route = useRoute();
@@ -28,7 +28,7 @@ function AccountDisplay() {
         addresses: publicKey
       }).toString();
       
-      const resp = await fetch(
+      const resp = await axios.get(
         `https://api.tatum.io/v3/data/balances?type=testnet${query}`,
         {
           method: 'GET',
@@ -80,10 +80,9 @@ function AccountDisplay() {
     if(encryptedPrivateKey != null){
 
     try{
-      const resp = await fetch(
+      const resp = await axios.post(
         `https://api.tatum.io/v3/ethereum/transaction?type=testnet`,
         {
-          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'x-api-key': Config.TATUM_API_KEY
@@ -108,10 +107,9 @@ function AccountDisplay() {
 
       encryptedPrivateKey = readNdef();
 
-      const resp = await fetch(
+      const resp = await axios.post(
         `https://api.tatum.io/v3/ethereum/transaction?type=testnet`,
         {
-          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'x-api-key': Config.TATUM_API_KEY
