@@ -133,7 +133,7 @@ function AccountPortal(props) {
           var privateKey = web3.utils.keccak256(innerHash + finalDataChain);
 
           oneTimeEncryptionPW = web3.utils.randomHex(32);
-          encryptedPrivateKey = CryptoJS.AES.encrypt(privateKey, oneTimeEncryptionPW).toString();;
+          encryptedPrivateKey = CryptoJS.AES.encrypt(privateKey, oneTimeEncryptionPW).toString();
           var decryptedAccount = web3.eth.accounts.privateKeyToAccount(privateKey);
           publicKey = decryptedAccount.address;
 

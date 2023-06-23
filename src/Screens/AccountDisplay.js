@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView, StyleSheet, Text, View, ImageBackground, Modal} from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
-import Moralis from "moralis";
-import { EvmChain, EvmTransaction } from "@moralisweb3/common-evm-utils";
 import { useRoute } from '@react-navigation/native';
 import Config from 'react-native-config';
+import Web3 from 'web3';
+import CryptoJS from 'crypto-js';
+import fetch from 'node-fetch';
 
 function AccountDisplay() {
   const route = useRoute();
@@ -18,52 +19,123 @@ function AccountDisplay() {
   const [modalVisible=false, setModalVisible] = React.useState();
   const showModal = () => setModalVisible(true);
   const hideModal = () => setModalVisible(false);
-  
-  useEffect(() => {
-    const getBalance = async () => {
-      try {
-        await Moralis.start({
-          apiKey: Config.MORALIS_API_KEY,
-        });
-      
-        const address = publicKey;
-      
-        const chain = EvmChain.GOERLI;
-      
-        const response = await Moralis.EvmApi.balance.getNativeBalance({
-          address,
-          chain,
-        });
-      
-        console.log(response.toJSON());
-        const json = response.toJSON();
-        setAccountBalance(parseInt(json.balance));
-          
-      } catch (error) {
-          console.log(error);
-      }
-    };
 
+  useEffect(() => {
+
+    async function getBalance() {
+      const query = new URLSearchParams({
+        chain: 'sepolia',
+        addresses: publicKey
+      }).toString();
+      
+      const resp = await fetch(
+        `https://api.tatum.io/v3/data/balances?type=testnet${query}`,
+        {
+          method: 'GET',
+          headers: {
+          'x-api-key': Config.TATUM_API_KEY
+          }
+        }
+      );
+      
+      const data = await resp.text();
+      console.log(data);
+    }
+        
     getBalance();
 
   }, []);
 
-  const signTransaction = () => {
+  async function readNdef() {
+    try{
+      await NfcManager.requestTechnology(NfcTech.Ndef);
+      // Testing just to get the Ndef data
+      const tagData = await NfcManager.ndefHandler.getNdefMessage();
+
+      //console.warn({tagData}); //print whole tag data
+      //console.log(tagData.ndefMessage[0].payload); // print only payload
+      
+      // turns payload into a single string of numbers without ,'s:
+      const tagPayload = tagData.ndefMessage[0].payload; //isolates payload of the ndefmessage
+      
+      tagPayload.shift(); // removes the 0th index of the tagPayload so it is only the record written to the tag
+      let nfcRead = await tagPayload.join(''); // concats the string of the tagPayload into a single string of #s
+
+      //console.warn(nfcRead); //print the information read from the tag
+
+      return nfcRead;
+
+    } catch (ex) {
+        //bypass
+    } finally {
+      NfcManager.cancelTechnologyRequest();
+    }
+  }
+
+  const signTransaction = async () => {
 
     // this should check if the private key is null or not(meaning that 
     // the use either did sign with tag or easy sign)
 
-    const tx = new EvmTransaction({
-      from: publicKey,
-      to: accountToSend,
-      value: amountToSend,
-      chainId: 1,
-    });
+    if(encryptedPrivateKey != null){
 
-    const signedTx = tx.sign("<private key>");
-    const txHash = tx.send(signedTx);
-    
+    try{
+      const resp = await fetch(
+        `https://api.tatum.io/v3/ethereum/transaction?type=testnet`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': Config.TATUM_API_KEY
+          },
+          body: JSON.stringify({
+            to: accountToSend,
+            amount: amountToSend,
+            currency: 'ETH',
+            fromPrivateKey: CryptoJS.AES.decrypt(encryptedPrivateKey, oneTimeEncryptionPW).toString()
+          })
+        }
+      );
+      const data = resp.JSON();
+
+    } catch(error){
+        console.log(error);
+    }
+
+    } else {
+      
+    try{
+
+      encryptedPrivateKey = readNdef();
+
+      const resp = await fetch(
+        `https://api.tatum.io/v3/ethereum/transaction?type=testnet`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': Config.TATUM_API_KEY
+          },
+          body: JSON.stringify({
+            to: accountToSend,
+            amount: amountToSend,
+            currency: 'ETH',
+            fromPrivateKey: CryptoJS.AES.decrypt(encryptedPrivateKey, oneTimeEncryptionPW).toString()
+          })
+        }
+      );
+
+      encryptedPrivateKey = null;
+      const data = resp.JSON();
+
+    } catch(error){
+    console.log(error);
+    }
+
+  console.log(data);
+
   }
+}
   
   return (
     <ImageBackground source={require('../assets/AnyWareBackground.png')}
@@ -233,8 +305,6 @@ const styles = StyleSheet.create({
 });
 
 export default AccountDisplay;
-
-
 
 // code to use for multiple chain config:
 
