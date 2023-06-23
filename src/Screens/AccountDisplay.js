@@ -31,7 +31,6 @@ function AccountDisplay() {
       const resp = await axios.get(
         `https://api.tatum.io/v3/data/balances?type=testnet${query}`,
         {
-          method: 'GET',
           headers: {
           'x-api-key': Config.TATUM_API_KEY
           }
@@ -39,6 +38,7 @@ function AccountDisplay() {
       );
       
       const data = await resp.text();
+      setAccountBalance(data);
       console.log(data);
     }
         
@@ -96,6 +96,7 @@ function AccountDisplay() {
         }
       );
       const data = resp.JSON();
+      console.log(data);
 
     } catch(error){
         console.log(error);
@@ -125,12 +126,12 @@ function AccountDisplay() {
 
       encryptedPrivateKey = null;
       const data = resp.JSON();
+      console.log(data);
+
 
     } catch(error){
     console.log(error);
     }
-
-  console.log(data);
 
   }
 }
