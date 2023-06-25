@@ -8,6 +8,8 @@ import Config from 'react-native-config';
 import Web3 from 'web3';
 import CryptoJS from 'crypto-js';
 
+var tempEncryptedPrivateKey;
+
 function AccountDisplay() {
   const route = useRoute();
   const { data } = route.params;
@@ -43,7 +45,7 @@ function AccountDisplay() {
       const tagPayload = tagData.ndefMessage[0].payload; //isolates payload of the ndefmessage
       
       tagPayload.shift(); // removes the 0th index of the tagPayload so it is only the record written to the tag
-      let nfcRead = await tagPayload.join(''); // concats the string of the tagPayload into a single string of #s
+      let nfcRead = await String.fromCharCode(...tagPayload); // concats the string of the tagPayload into a single string of #s
 
       //console.warn(nfcRead); //print the information read from the tag
 
@@ -100,7 +102,8 @@ function AccountDisplay() {
       
     } else {
 
-      var tempEncryptedPrivateKey = await readNdef(); // why isn't this getting called, while the below console.warns are working correctly?
+      tempEncryptedPrivateKey = await readNdef(); // why isn't this getting called, while the below console.warns are working correctly?
+      console.warn('control flow test 1: ' + tempEncryptedPrivateKey);
 
       web3.eth.getTransactionCount(publicKey, (err, txCount) => {
 
@@ -118,7 +121,7 @@ function AccountDisplay() {
         try{
 
           console.warn('control flow test');
-          console.warn(tempEncryptedPrivateKey.toString());
+          console.warn(tempEncryptedPrivateKey);
           console.warn(oneTimeEncryptionPW);
           console.warn(CryptoJS.AES.decrypt(tempEncryptedPrivateKey, oneTimeEncryptionPW).toString(CryptoJS.enc.Utf8));
 
