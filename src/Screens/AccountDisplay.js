@@ -62,58 +62,64 @@ function AccountDisplay() {
 
     //Build the transaction
 
-    const txNonce = web3.eth.getTransactionCount(publicKey, (err, txCount) => {
-        return txCount;
-    })
+    web3.eth.getTransactionCount(publicKey, (err, txCount) => {
 
-    const txObject = {
-      "nonce": web3.utils.toHex(txNonce),
-      "to": web3.utils.toHex(accountToSend),
-      "value": web3.utils.toHex(web3.utils.toWei(amountToSend, 'ether')),
-      "gasLimit": web3.utils.toHex(21000),
-      "gasPrice" : web3.utils.toHex(web3.utils.toWei('10', 'gwei'))
-    }
+        const txObject = {
+          "nonce": web3.utils.toHex(txCount),
+          "to": web3.utils.toHex(accountToSend),
+          "value": web3.utils.toHex(web3.utils.toWei(amountToSend, 'ether')),
+          "gasLimit": web3.utils.toHex(21000),
+          "gasPrice" : web3.utils.toHex(web3.utils.toWei('10', 'gwei'))
+        }
+    
+        console.log(txObject);
+    
+        const tx = Transaction.fromTxData(txObject);
+    
+        // Sign the transaction with tag or with encrypted private key
+        // this should check if the private key is null or not(meaning that 
+        // the use either did sign with tag or easy sign)
+        if(encryptedPrivateKey != null){
+    
+        try{
 
-    console.log(txObject);
-
-    const tx = Transaction.fromTxData(txObject);
-
-    // Sign the transaction with tag or with encrypted private key
-    // this should check if the private key is null or not(meaning that 
-    // the use either did sign with tag or easy sign)
-    if(encryptedPrivateKey != null){
-
-    try{
-      
-      tx.sign(Buffer.from(CryptoJS.AES.decrypt(encryptedPrivateKey, oneTimeEncryptionPW), 'hex'));
-
-    } catch(error){
+          console.warn(encryptedPrivateKey);
+          console.warn(oneTimeEncryptionPW);
+          console.warn(CryptoJS.AES.decrypt(encryptedPrivateKey, oneTimeEncryptionPW).toString(CryptoJS.enc.Utf8));
+          
+          tx.sign(Buffer.from(CryptoJS.AES.decrypt(encryptedPrivateKey, oneTimeEncryptionPW).toString(CryptoJS.enc.Utf8), 'hex'));
+          
+        } catch(error){
+            console.log(error);
+        }
+    
+        } else {
+          
+        try{
+    
+          encryptedPrivateKey = readNdef();
+          tx.sign(Buffer.from(CryptoJS.AES.decrypt(encryptedPrivateKey, oneTimeEncryptionPW).toString(CryptoJS.enc.Utf8), 'hex'));
+          encryptedPrivateKey = null;
+    
+        } catch(error){
         console.log(error);
-    }
+        }
+    
+        }
+    
+        const serializedTransaction = tx.serialize();
+        const raw = '0x' + serializedTransaction.toString('hex');
+    
+        console.log(raw);
+    
+        // Broadcast the Transaction
+        web3.eth.sendSignedTransaction(raw, (err, txHash) => {
+          console.warn('txHash: ', txHash);
+        })
 
-    } else {
-      
-    try{
-
-      encryptedPrivateKey = readNdef();
-      tx.sign(Buffer.from(CryptoJS.AES.decrypt(encryptedPrivateKey, oneTimeEncryptionPW), 'hex'));
-      encryptedPrivateKey = null;
-
-    } catch(error){
-    console.log(error);
-    }
-
-    }
-
-    const serializedTransaction = tx.serialize();
-    const raw = '0x' + serializedTransaction.toString('hex');
-
-    console.log(raw);
-
-    // Broadcast the Transaction
-    web3.eth.sendSignedTransaction(raw, (err, txHash) => {
-      console.warn('txHash: ', txHash);
     })
+
+    
   }
   
   return (
@@ -283,30 +289,3 @@ const styles = StyleSheet.create({
 
 export default AccountDisplay;
 
-// code to use for multiple chain config:
-
-// const getNFTS = async () => {
-
-//   await Moralis.start({
-//     apiKey: "MORALIS_API_KEY",
-//     // ...and any other configuration
-//   });
-
-//   const allNFTs = [];
-
-//   const address = "0xd8da6bf26964af9d7eed9e03e53415d37aa96045";
-
-//   const chains = [EvmChain.ETHEREUM, EvmChain.BSC, EvmChain.POLYGON];
-
-//   for (const chain of chains) {
-//     const response = await Moralis.EvmApi.nft.getWalletNFTs({
-//       address,
-//       chain,
-//     });
-
-//     allNFTs.push(response);
-//   }
-
-//   console.log(allNFTs);
-//   return allNFTs;
-// };

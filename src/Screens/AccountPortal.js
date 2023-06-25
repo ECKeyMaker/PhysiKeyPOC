@@ -14,7 +14,6 @@ var oneTimeEncryptionPW = '';
 function AccountPortal(props) {
   const {navigation} = props;
 
-  oneTimeEncryptionPW = ''; // zero out encryption password on return to this screen
   let finalDataChain = 'anywarewallet'; // append all inputValues to this variable
   var web3 = new Web3(Web3.givenProvider);
   
@@ -138,6 +137,7 @@ function AccountPortal(props) {
 
           setInputValues(encryptedPrivateKey);
           console.warn(encryptedPrivateKey);
+          console.warn(oneTimeEncryptionPW);
 
           // reset all values containing sensitive data to null / baseline:
           decryptedAccount = {};
