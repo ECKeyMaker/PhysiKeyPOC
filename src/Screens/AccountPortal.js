@@ -163,7 +163,7 @@ function AccountPortal(props) {
             backgroundColor={'black'}
             style={styles.wrapper}
             borderRadius={10}>
-          <Text style={styles.bannerText}>{publicKey}</Text>
+          <Text style={styles.bannerText} selectable>{publicKey}</Text>
           
           <Button // this button needs to write the encrypted private key to the tag
                   // then navigate to the account display while passing the

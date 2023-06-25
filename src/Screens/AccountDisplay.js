@@ -69,7 +69,7 @@ function AccountDisplay() {
     const txObject = {
       "nonce": web3.utils.toHex(txNonce),
       "to": web3.utils.toHex(accountToSend),
-      "value": web3.utils.toHex(web3.utils.towWei(amountToSend, 'ether')),
+      "value": web3.utils.toHex(web3.utils.toWei(amountToSend, 'ether')),
       "gasLimit": web3.utils.toHex(21000),
       "gasPrice" : web3.utils.toHex(web3.utils.toWei('10', 'gwei'))
     }
@@ -120,7 +120,7 @@ function AccountDisplay() {
     <ImageBackground source={require('../assets/AnyWareBackground.png')}
     style={styles.backgroundImage}>
     <SafeAreaView style={[{ flex: 1 }]}>
-      <Text style={styles.bannerText}>{publicKey}</Text>
+      <Text style={styles.bannerText} selectable>{publicKey}</Text>
       <Text style={styles.bannerText}>Account Balance: {accountBalance}</Text>
 
       <Text style={styles.bannerText}>Input Address:</Text>
