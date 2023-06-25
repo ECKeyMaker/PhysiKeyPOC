@@ -6,9 +6,6 @@ import { useRoute } from '@react-navigation/native';
 import Config from 'react-native-config';
 import Web3 from 'web3';
 import CryptoJS from 'crypto-js';
-import axios from 'axios';
-import Common, { Chain } from '@ethereumjs/common'
-import { Transaction } from '@ethereumjs/tx'
 
 function AccountDisplay() {
   const route = useRoute();
@@ -66,6 +63,7 @@ function AccountDisplay() {
 
         const txObject = {
           "nonce": web3.utils.toHex(txCount),
+          "from" : web3.utils.toHex(publicKey),
           "to": web3.utils.toHex(accountToSend),
           "value": web3.utils.toHex(web3.utils.toWei(amountToSend, 'ether')),
           "gasLimit": web3.utils.toHex(21000),
@@ -73,8 +71,6 @@ function AccountDisplay() {
         }
     
         console.log(txObject);
-    
-        const tx = Transaction.fromTxData(txObject);
     
         // Sign the transaction with tag or with encrypted private key
         // this should check if the private key is null or not(meaning that 
@@ -86,8 +82,16 @@ function AccountDisplay() {
           console.warn(encryptedPrivateKey);
           console.warn(oneTimeEncryptionPW);
           console.warn(CryptoJS.AES.decrypt(encryptedPrivateKey, oneTimeEncryptionPW).toString(CryptoJS.enc.Utf8));
+
+          web3.eth.accounts.signTransaction(txObject, CryptoJS.AES.decrypt(encryptedPrivateKey, oneTimeEncryptionPW).toString(CryptoJS.enc.Utf8), (err, signedTransaction) => {
           
-          tx.sign(Buffer.from(CryptoJS.AES.decrypt(encryptedPrivateKey, oneTimeEncryptionPW).toString(CryptoJS.enc.Utf8), 'hex'));
+          console.log(signedTransaction)
+
+          web3.eth.sendSignedTransaction(signedTransaction.rawTransaction, (err, txHash) => {
+            console.warn('txHash: ', txHash);
+          })
+          
+          });          
           
         } catch(error){
             console.log(error);
@@ -100,14 +104,8 @@ function AccountDisplay() {
           encryptedPrivateKey = readNdef();
           tx.sign(Buffer.from(CryptoJS.AES.decrypt(encryptedPrivateKey, oneTimeEncryptionPW).toString(CryptoJS.enc.Utf8), 'hex'));
           encryptedPrivateKey = null;
-    
-        } catch(error){
-        console.log(error);
-        }
-    
-        }
-    
-        const serializedTransaction = tx.serialize();
+
+          const serializedTransaction = tx.serialize();
         const raw = '0x' + serializedTransaction.toString('hex');
     
         console.log(raw);
@@ -116,6 +114,14 @@ function AccountDisplay() {
         web3.eth.sendSignedTransaction(raw, (err, txHash) => {
           console.warn('txHash: ', txHash);
         })
+    
+        } catch(error){
+        console.log(error);
+        }
+    
+        }
+    
+        
 
     })
 
@@ -152,16 +158,27 @@ function AccountDisplay() {
             backgroundColor={'white'}
             color={'black'}
           />
+      <View style={styles.wrapper}>
+        <Button 
+              mode="contained" 
+              style={styles.btn} 
+              onPress={() => {
+              signTransaction();
+              }}>
+              Sign/Send
+        </Button>
 
-      <Button 
-            mode="contained" 
-            style={styles.btn} 
-            onPress={() => {
-            signTransaction();
-            }}>
-            Sign/Send
-          </Button>
-
+        <Button 
+              mode="contained" 
+              style={styles.btn} 
+              onPress={() => {
+                web3.eth.getBalance(publicKey, (err, bal) => {
+                setAccountBalance(web3.utils.fromWei(bal.toString(), 'ether'));
+                });;
+              }}>
+              Refresh Balance
+        </Button>
+      </View>
     
       <Modal  
         visible = {modalVisible}>
@@ -193,6 +210,11 @@ function AccountDisplay() {
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   bannerText: {
     fontSize: 30,
     textAlign: 'center',
