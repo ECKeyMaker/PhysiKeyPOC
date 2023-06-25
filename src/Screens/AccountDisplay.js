@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView, StyleSheet, Text, View, ImageBackground, Modal} from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
+import NfcManager, { Ndef, NfcTech } from 'react-native-nfc-manager';
 import { useRoute } from '@react-navigation/native';
 import Config from 'react-native-config';
 import Web3 from 'web3';
@@ -55,13 +56,16 @@ function AccountDisplay() {
     }
   }
 
-  const signTransaction = async () => {
+  async function signTransaction() {
 
-    //Build the transaction
+    // Sign the transaction with tag or with encrypted private key
+    // this should check if the private key is null or not(meaning that 
+    // the use either did sign with tag or easy sign)
+    if(encryptedPrivateKey != ''){
 
     web3.eth.getTransactionCount(publicKey, (err, txCount) => {
 
-        const txObject = {
+        txObject = {
           "nonce": web3.utils.toHex(txCount),
           "from" : web3.utils.toHex(publicKey),
           "to": web3.utils.toHex(accountToSend),
@@ -71,11 +75,6 @@ function AccountDisplay() {
         }
     
         console.log(txObject);
-    
-        // Sign the transaction with tag or with encrypted private key
-        // this should check if the private key is null or not(meaning that 
-        // the use either did sign with tag or easy sign)
-        if(encryptedPrivateKey != null){
     
         try{
 
@@ -95,25 +94,45 @@ function AccountDisplay() {
           
         } catch(error){
             console.log(error);
+        } 
+        
+      })
+      
+    } else {
+
+      var tempEncryptedPrivateKey = await readNdef(); // why isn't this getting called, while the below console.warns are working correctly?
+
+      web3.eth.getTransactionCount(publicKey, (err, txCount) => {
+
+        txObject = {
+          "nonce": web3.utils.toHex(txCount),
+          "from" : web3.utils.toHex(publicKey),
+          "to": web3.utils.toHex(accountToSend),
+          "value": web3.utils.toHex(web3.utils.toWei(amountToSend, 'ether')),
+          "gasLimit": web3.utils.toHex(21000),
+          "gasPrice" : web3.utils.toHex(web3.utils.toWei('10', 'gwei'))
         }
     
-        } else {
-          
-        try{
-    
-          encryptedPrivateKey = readNdef();
-          tx.sign(Buffer.from(CryptoJS.AES.decrypt(encryptedPrivateKey, oneTimeEncryptionPW).toString(CryptoJS.enc.Utf8), 'hex'));
-          encryptedPrivateKey = null;
+        console.log(txObject);
 
-          const serializedTransaction = tx.serialize();
-        const raw = '0x' + serializedTransaction.toString('hex');
-    
-        console.log(raw);
-    
-        // Broadcast the Transaction
-        web3.eth.sendSignedTransaction(raw, (err, txHash) => {
-          console.warn('txHash: ', txHash);
-        })
+        try{
+
+          console.warn('control flow test');
+          console.warn(tempEncryptedPrivateKey.toString());
+          console.warn(oneTimeEncryptionPW);
+          console.warn(CryptoJS.AES.decrypt(tempEncryptedPrivateKey, oneTimeEncryptionPW).toString(CryptoJS.enc.Utf8));
+
+          web3.eth.accounts.signTransaction(txObject, CryptoJS.AES.decrypt(tempEncryptedPrivateKey, oneTimeEncryptionPW).toString(CryptoJS.enc.Utf8), (err, signedTransaction) => {
+          
+          tempEncryptedPrivateKey = '';
+
+          console.log(signedTransaction)
+
+          web3.eth.sendSignedTransaction(signedTransaction.rawTransaction, (err, txHash) => {
+            console.warn('txHash: ', txHash);
+          })
+          
+          });
     
         } catch(error){
         console.log(error);
@@ -121,10 +140,7 @@ function AccountDisplay() {
     
         }
     
-        
-
-    })
-
+      )}
     
   }
   
