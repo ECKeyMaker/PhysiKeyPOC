@@ -7,6 +7,8 @@ import Config from 'react-native-config';
 import Web3 from 'web3';
 import CryptoJS from 'crypto-js';
 import axios from 'axios';
+import Common, { Chain } from '@ethereumjs/common'
+import { Transaction } from '@ethereumjs/tx'
 
 function AccountDisplay() {
   const route = useRoute();
@@ -20,29 +22,13 @@ function AccountDisplay() {
   const showModal = () => setModalVisible(true);
   const hideModal = () => setModalVisible(false);
 
+  const web3 = new Web3(Web3.givenProvider);
+
   useEffect(() => {
 
-    async function getBalance() {
-      const query = new URLSearchParams({
-        chain: 'sepolia',
-        addresses: publicKey
-      }).toString();
-      
-      const resp = await axios.get(
-        `https://api.tatum.io/v3/data/balances?type=testnet${query}`,
-        {
-          headers: {
-          'x-api-key': Config.TATUM_API_KEY
-          }
-        }
-      );
-      
-      const data = await resp.text();
-      setAccountBalance(data);
-      console.log(data);
-    }
-        
-    getBalance();
+    web3.eth.getBalance(publicKey, (err, bal) => {
+      setAccountBalance(web3.utils.fromWei(bal, 'ether'));
+    });
 
   }, []);
 
@@ -74,29 +60,32 @@ function AccountDisplay() {
 
   const signTransaction = async () => {
 
+    //Build the transaction
+
+    const txNonce = web3.eth.getTransactionCount(publicKey, (err, txCount) => {
+        return txCount;
+    })
+
+    const txObject = {
+      "nonce": web3.utils.toHex(txNonce),
+      "to": web3.utils.toHex(accountToSend),
+      "value": web3.utils.toHex(web3.utils.towWei(amountToSend, 'ether')),
+      "gasLimit": web3.utils.toHex(21000),
+      "gasPrice" : web3.utils.toHex(web3.utils.toWei('10', 'gwei'))
+    }
+
+    console.log(txObject);
+
+    const tx = Transaction.fromTxData(txObject);
+
+    // Sign the transaction with tag or with encrypted private key
     // this should check if the private key is null or not(meaning that 
     // the use either did sign with tag or easy sign)
-
     if(encryptedPrivateKey != null){
 
     try{
-      const resp = await axios.post(
-        `https://api.tatum.io/v3/ethereum/transaction?type=testnet`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': Config.TATUM_API_KEY
-          },
-          body: JSON.stringify({
-            to: accountToSend,
-            amount: amountToSend,
-            currency: 'ETH',
-            fromPrivateKey: CryptoJS.AES.decrypt(encryptedPrivateKey, oneTimeEncryptionPW).toString()
-          })
-        }
-      );
-      const data = resp.JSON();
-      console.log(data);
+      
+      tx.sign(Buffer.from(CryptoJS.AES.decrypt(encryptedPrivateKey, oneTimeEncryptionPW), 'hex'));
 
     } catch(error){
         console.log(error);
@@ -107,41 +96,32 @@ function AccountDisplay() {
     try{
 
       encryptedPrivateKey = readNdef();
-
-      const resp = await axios.post(
-        `https://api.tatum.io/v3/ethereum/transaction?type=testnet`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': Config.TATUM_API_KEY
-          },
-          body: JSON.stringify({
-            to: accountToSend,
-            amount: amountToSend,
-            currency: 'ETH',
-            fromPrivateKey: CryptoJS.AES.decrypt(encryptedPrivateKey, oneTimeEncryptionPW).toString()
-          })
-        }
-      );
-
+      tx.sign(Buffer.from(CryptoJS.AES.decrypt(encryptedPrivateKey, oneTimeEncryptionPW), 'hex'));
       encryptedPrivateKey = null;
-      const data = resp.JSON();
-      console.log(data);
-
 
     } catch(error){
     console.log(error);
     }
 
+    }
+
+    const serializedTransaction = tx.serialize();
+    const raw = '0x' + serializedTransaction.toString('hex');
+
+    console.log(raw);
+
+    // Broadcast the Transaction
+    web3.eth.sendSignedTransaction(raw, (err, txHash) => {
+      console.warn('txHash: ', txHash);
+    })
   }
-}
   
   return (
     <ImageBackground source={require('../assets/AnyWareBackground.png')}
     style={styles.backgroundImage}>
     <SafeAreaView style={[{ flex: 1 }]}>
       <Text style={styles.bannerText}>{publicKey}</Text>
-      <Text style={styles.bannerText}>{accountBalance}</Text>
+      <Text style={styles.bannerText}>Account Balance: {accountBalance}</Text>
 
       <Text style={styles.bannerText}>Input Address:</Text>
 
