@@ -22,12 +22,12 @@ function AccountDisplay() {
   const showModal = () => setModalVisible(true);
   const hideModal = () => setModalVisible(false);
 
-  const web3 = new Web3(Web3.givenProvider);
+  const web3 = new Web3('https://api.tatum.io/v3/blockchain/node/ethereum-goerli/' + Config.TATUM_API_KEY);
 
   useEffect(() => {
 
     web3.eth.getBalance(publicKey, (err, bal) => {
-      setAccountBalance(web3.utils.fromWei(bal, 'ether'));
+      setAccountBalance(web3.utils.fromWei(bal.toString(), 'ether'));
     });
 
   }, []);
@@ -131,7 +131,6 @@ function AccountDisplay() {
             autoCorrect={false}
             inputValue={accountToSend}
             onChangeText={setAccountToSend}
-            autoCapitalize={false}
             backgroundColor={'white'}
             color={'black'}
           />
@@ -144,7 +143,6 @@ function AccountDisplay() {
             autoCorrect={false}
             inputValue={amountToSend}
             onChangeText={setAmountToSend}
-            autoCapitalize={false}
             backgroundColor={'white'}
             color={'black'}
           />

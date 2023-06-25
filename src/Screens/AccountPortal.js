@@ -78,7 +78,6 @@ function AccountPortal(props) {
             autoCorrect={false}
             inputValue={inputValue}
             onChangeText={setInputValues}
-            autoCapitalize={false}
             backgroundColor={'white'}
             color={'black'}
           />
