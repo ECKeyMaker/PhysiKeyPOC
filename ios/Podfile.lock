@@ -419,7 +419,29 @@ PODS:
     - React-RCTNetwork
     - React-runtimescheduler
     - ReactCommon/turbomodule/core
+<<<<<<< HEAD
   - React-RCTBlob (0.72.5):
+=======
+  - react-native-udp (2.7.0):
+    - React
+  - React-perflogger (0.71.8)
+  - React-RCTActionSheet (0.71.8):
+    - React-Core/RCTActionSheetHeaders (= 0.71.8)
+  - React-RCTAnimation (0.71.8):
+    - RCT-Folly (= 2021.07.22.00)
+    - RCTTypeSafety (= 0.71.8)
+    - React-Codegen (= 0.71.8)
+    - React-Core/RCTAnimationHeaders (= 0.71.8)
+    - React-jsi (= 0.71.8)
+    - ReactCommon/turbomodule/core (= 0.71.8)
+  - React-RCTAppDelegate (0.71.8):
+    - RCT-Folly
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - ReactCommon/turbomodule/core
+  - React-RCTBlob (0.71.8):
+>>>>>>> 4a15ca1 (Added all the dependences for React-Native-Bitcoin)
     - hermes-engine
     - RCT-Folly (= 2021.07.22.00)
     - React-Codegen (= 0.72.5)
@@ -541,7 +563,11 @@ PODS:
     - React-RCTImage
   - RNVectorIcons (9.2.0):
     - React-Core
+<<<<<<< HEAD
   - SocketRocket (0.6.1)
+=======
+  - SocketRocket (0.6.0)
+>>>>>>> 4a15ca1 (Added all the dependences for React-Native-Bitcoin)
   - TcpSockets (3.3.2):
     - React
   - Yoga (1.14.0)
@@ -789,6 +815,7 @@ SPEC CHECKSUMS:
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
   react-native-nfc-manager: 15a9dd22258cb8e1a6bbb71179baf5c9137a933d
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
+<<<<<<< HEAD
   react-native-safe-area-context: 7aa8e6d9d0f3100a820efb1a98af68aa747f9284
   react-native-udp: ff9d13e523f2b58e6bc5d4d32321ac60671b5dc9
   React-NativeModulesApple: 797bc6078d566eef3fb3f74127e6e1d2e945a15f
@@ -809,15 +836,38 @@ SPEC CHECKSUMS:
   React-utils: 7a9918a1ffdd39aba67835d42386f592ea3f8e76
   ReactCommon: 91ece8350ebb3dd2be9cef662abd78b6948233c0
   RNArgon2: 1481820722fd4af1575c09f7fc9ad67c00ee8a42
+=======
+  react-native-safe-area-context: b8979f5eda6ed5903d4dbc885be3846ea3daa753
+  react-native-udp: ff9d13e523f2b58e6bc5d4d32321ac60671b5dc9
+  React-perflogger: d21f182895de9d1b077f8a3cd00011095c8c9100
+  React-RCTActionSheet: 0151f83ef92d2a7139bba7dfdbc8066632a6d47b
+  React-RCTAnimation: 5ec9c0705bb2297549c120fe6473aa3e4a01e215
+  React-RCTAppDelegate: 9895fd1b6d1176d88c4b10ddc169b2e1300c91f0
+  React-RCTBlob: f3634eb45b6e7480037655e1ca93d1136ac984dd
+  React-RCTImage: 3c12cb32dec49549ae62ed6cba4018db43841ffc
+  React-RCTLinking: 310e930ee335ef25481b4a173d9edb64b77895f9
+  React-RCTNetwork: b6837841fe88303b0c04c1e3c01992b30f1f5498
+  React-RCTSettings: 600d91fe25fa7c16b0ff891304082440f2904b89
+  React-RCTText: a0a19f749088280c6def5397ed6211b811e7eef3
+  React-RCTVibration: 43ffd976a25f6057a7cf95ea3648ba4e00287f89
+  React-runtimeexecutor: 7c51ae9d4b3e9608a2366e39ccaa606aa551b9ed
+  ReactCommon: 85c98ab0a509e70bf5ee5d9715cf68dbf495b84c
+>>>>>>> 4a15ca1 (Added all the dependences for React-Native-Bitcoin)
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNGestureHandler: 38aa38413896620338948fbb5c90579a7b1c3fde
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
   RNReanimated: ab2e96c6d5591c3dfbb38a464f54c8d17fb34a87
   RNScreens: 85d3880b52d34db7b8eeebe2f1a0e807c05e69fa
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
+<<<<<<< HEAD
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
   TcpSockets: 14306fb79f9750ea7d2ddd02d8bed182abb01797
   Yoga: 86fed2e4d425ee4c6eab3813ba1791101ee153c6
+=======
+  SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
+  TcpSockets: 14306fb79f9750ea7d2ddd02d8bed182abb01797
+  Yoga: 065f0b74dba4832d6e328238de46eb72c5de9556
+>>>>>>> 4a15ca1 (Added all the dependences for React-Native-Bitcoin)
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
 PODFILE CHECKSUM: 1fefce3723a2c21dbcc0ee727ad758716b8cc777

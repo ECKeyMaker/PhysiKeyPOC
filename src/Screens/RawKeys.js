@@ -3,7 +3,12 @@ import {View, Text, StyleSheet, TouchableOpacity, ImageBackground, Modal} from '
 import {Button, TextInput} from 'react-native-paper';
 import NfcManager, { Ndef, NfcTech } from 'react-native-nfc-manager';
 import '../../shimeth.js';
+<<<<<<< HEAD
 import '../../shim.js';
+=======
+import './shim.js';
+import Bitcoin from 'react-native-bitcoinjs-lib';
+>>>>>>> 4a15ca1 (Added all the dependences for React-Native-Bitcoin)
 import Web3 from 'web3';
 import CryptoJS from 'crypto-js';
 import { ec as EC } from 'elliptic';
@@ -214,6 +219,7 @@ function RawKeys(props) {
           const firstHash = CryptoJS.SHA256(finalDataChain).toString();
           privateKeyBTC = CryptoJS.SHA256(firstHash + finalDataChain).toString();
 
+<<<<<<< HEAD
           // wif encoding privateKeyBTC = wif.encode(128, Buffer.from(secondHash, 'hex'), true);
           var accountObjectBTC = ec.keyFromPrivate(privateKeyBTC);
           addressBTC = accountObjectBTC.getPublic('hex');
@@ -232,6 +238,11 @@ function RawKeys(props) {
 
           // insert modal to done screen to print private/public key pair;
           
+=======
+          const keypair = Bitcoin.ECPair.makeRandom();
+          console.warn(keypair.getAddress());
+
+>>>>>>> 4a15ca1 (Added all the dependences for React-Native-Bitcoin)
           showModal();
           hideKeyStatusModal();
 
