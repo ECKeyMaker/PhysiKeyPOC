@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView, StyleSheet, Text, View, ImageBackground, Modal} from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
-import Moralis from "moralis";
-import { EvmChain, EvmTransaction } from "@moralisweb3/common-evm-utils";
+import NfcManager, { Ndef, NfcTech } from 'react-native-nfc-manager';
 import { useRoute } from '@react-navigation/native';
 import Config from 'react-native-config';
+import Web3 from 'web3';
+import CryptoJS from 'crypto-js';
+
+var tempEncryptedPrivateKey;
 
 function AccountDisplay() {
   const route = useRoute();
@@ -18,50 +21,129 @@ function AccountDisplay() {
   const [modalVisible=false, setModalVisible] = React.useState();
   const showModal = () => setModalVisible(true);
   const hideModal = () => setModalVisible(false);
-  
-  useEffect(() => {
-    const getBalance = async () => {
-      try {
-        await Moralis.start({
-          apiKey: Config.MORALIS_API_KEY,
-        });
-      
-        const address = publicKey;
-      
-        const chain = EvmChain.GOERLI;
-      
-        const response = await Moralis.EvmApi.balance.getNativeBalance({
-          address,
-          chain,
-        });
-      
-        console.log(response.toJSON());
-        const json = response.toJSON();
-        setAccountBalance(parseInt(json.balance));
-          
-      } catch (error) {
-          console.log(error);
-      }
-    };
 
-    getBalance();
+  const web3 = new Web3('https://api.tatum.io/v3/blockchain/node/ethereum-goerli/' + Config.TATUM_API_KEY);
+
+  useEffect(() => {
+
+    web3.eth.getBalance(publicKey, (err, bal) => {
+      setAccountBalance(web3.utils.fromWei(bal.toString(), 'ether'));
+    });
 
   }, []);
 
-  const signTransaction = () => {
+  async function readNdef() {
+    try{
+      await NfcManager.requestTechnology(NfcTech.Ndef);
+      // Testing just to get the Ndef data
+      const tagData = await NfcManager.ndefHandler.getNdefMessage();
 
+      //console.warn({tagData}); //print whole tag data
+      //console.log(tagData.ndefMessage[0].payload); // print only payload
+      
+      // turns payload into a single string of numbers without ,'s:
+      const tagPayload = tagData.ndefMessage[0].payload; //isolates payload of the ndefmessage
+      
+      tagPayload.shift(); // removes the 0th index of the tagPayload so it is only the record written to the tag
+      let nfcRead = await String.fromCharCode(...tagPayload); // concats the string of the tagPayload into a single string of #s
+
+      //console.warn(nfcRead); //print the information read from the tag
+
+      return nfcRead;
+
+    } catch (ex) {
+        //bypass
+    } finally {
+      NfcManager.cancelTechnologyRequest();
+    }
+  }
+
+  async function signTransaction() {
+
+    // Sign the transaction with tag or with encrypted private key
     // this should check if the private key is null or not(meaning that 
     // the use either did sign with tag or easy sign)
+    if(encryptedPrivateKey != ''){
 
-    const tx = new EvmTransaction({
-      from: publicKey,
-      to: accountToSend,
-      value: amountToSend,
-      chainId: 1,
-    });
+    web3.eth.getTransactionCount(publicKey, (err, txCount) => {
 
-    const signedTx = tx.sign("<private key>");
-    const txHash = tx.send(signedTx);
+        txObject = {
+          "nonce": web3.utils.toHex(txCount),
+          "from" : web3.utils.toHex(publicKey),
+          "to": web3.utils.toHex(accountToSend),
+          "value": web3.utils.toHex(web3.utils.toWei(amountToSend, 'ether')),
+          "gasLimit": web3.utils.toHex(21000),
+          "gasPrice" : web3.utils.toHex(web3.utils.toWei('10', 'gwei'))
+        }
+    
+        console.log(txObject);
+    
+        try{
+
+          console.warn(encryptedPrivateKey);
+          console.warn(oneTimeEncryptionPW);
+          console.warn(CryptoJS.AES.decrypt(encryptedPrivateKey, oneTimeEncryptionPW).toString(CryptoJS.enc.Utf8));
+
+          web3.eth.accounts.signTransaction(txObject, CryptoJS.AES.decrypt(encryptedPrivateKey, oneTimeEncryptionPW).toString(CryptoJS.enc.Utf8), (err, signedTransaction) => {
+          
+          console.log(signedTransaction)
+
+          web3.eth.sendSignedTransaction(signedTransaction.rawTransaction, (err, txHash) => {
+            console.warn('txHash: ', txHash);
+          })
+          
+          });          
+          
+        } catch(error){
+            console.log(error);
+        } 
+        
+      })
+      
+    } else {
+
+      tempEncryptedPrivateKey = await readNdef(); // why isn't this getting called, while the below console.warns are working correctly?
+      console.warn('control flow test 1: ' + tempEncryptedPrivateKey);
+
+      web3.eth.getTransactionCount(publicKey, (err, txCount) => {
+
+        txObject = {
+          "nonce": web3.utils.toHex(txCount),
+          "from" : web3.utils.toHex(publicKey),
+          "to": web3.utils.toHex(accountToSend),
+          "value": web3.utils.toHex(web3.utils.toWei(amountToSend, 'ether')),
+          "gasLimit": web3.utils.toHex(21000),
+          "gasPrice" : web3.utils.toHex(web3.utils.toWei('10', 'gwei'))
+        }
+    
+        console.log(txObject);
+
+        try{
+
+          console.warn('control flow test');
+          console.warn(tempEncryptedPrivateKey);
+          console.warn(oneTimeEncryptionPW);
+          console.warn(CryptoJS.AES.decrypt(tempEncryptedPrivateKey, oneTimeEncryptionPW).toString(CryptoJS.enc.Utf8));
+
+          web3.eth.accounts.signTransaction(txObject, CryptoJS.AES.decrypt(tempEncryptedPrivateKey, oneTimeEncryptionPW).toString(CryptoJS.enc.Utf8), (err, signedTransaction) => {
+          
+          tempEncryptedPrivateKey = '';
+
+          console.log(signedTransaction)
+
+          web3.eth.sendSignedTransaction(signedTransaction.rawTransaction, (err, txHash) => {
+            console.warn('txHash: ', txHash);
+          })
+          
+          });
+    
+        } catch(error){
+        console.log(error);
+        }
+    
+        }
+    
+      )}
     
   }
   
@@ -69,8 +151,8 @@ function AccountDisplay() {
     <ImageBackground source={require('../assets/AnyWareBackground.png')}
     style={styles.backgroundImage}>
     <SafeAreaView style={[{ flex: 1 }]}>
-      <Text style={styles.bannerText}>{publicKey}</Text>
-      <Text style={styles.bannerText}>{accountBalance}</Text>
+      <Text style={styles.bannerText} selectable>{publicKey}</Text>
+      <Text style={styles.bannerText}>Account Balance: {accountBalance}</Text>
 
       <Text style={styles.bannerText}>Input Address:</Text>
 
@@ -80,7 +162,6 @@ function AccountDisplay() {
             autoCorrect={false}
             inputValue={accountToSend}
             onChangeText={setAccountToSend}
-            autoCapitalize={false}
             backgroundColor={'white'}
             color={'black'}
           />
@@ -93,20 +174,30 @@ function AccountDisplay() {
             autoCorrect={false}
             inputValue={amountToSend}
             onChangeText={setAmountToSend}
-            autoCapitalize={false}
             backgroundColor={'white'}
             color={'black'}
           />
+      <View style={styles.wrapper}>
+        <Button 
+              mode="contained" 
+              style={styles.btn} 
+              onPress={() => {
+              signTransaction();
+              }}>
+              Sign/Send
+        </Button>
 
-      <Button 
-            mode="contained" 
-            style={styles.btn} 
-            onPress={() => {
-            signTransaction();
-            }}>
-            Sign/Send
-          </Button>
-
+        <Button 
+              mode="contained" 
+              style={styles.btn} 
+              onPress={() => {
+                web3.eth.getBalance(publicKey, (err, bal) => {
+                setAccountBalance(web3.utils.fromWei(bal.toString(), 'ether'));
+                });;
+              }}>
+              Refresh Balance
+        </Button>
+      </View>
     
       <Modal  
         visible = {modalVisible}>
@@ -138,6 +229,11 @@ function AccountDisplay() {
 }
 
 const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   bannerText: {
     fontSize: 30,
     textAlign: 'center',
@@ -234,32 +330,3 @@ const styles = StyleSheet.create({
 
 export default AccountDisplay;
 
-
-
-// code to use for multiple chain config:
-
-// const getNFTS = async () => {
-
-//   await Moralis.start({
-//     apiKey: "MORALIS_API_KEY",
-//     // ...and any other configuration
-//   });
-
-//   const allNFTs = [];
-
-//   const address = "0xd8da6bf26964af9d7eed9e03e53415d37aa96045";
-
-//   const chains = [EvmChain.ETHEREUM, EvmChain.BSC, EvmChain.POLYGON];
-
-//   for (const chain of chains) {
-//     const response = await Moralis.EvmApi.nft.getWalletNFTs({
-//       address,
-//       chain,
-//     });
-
-//     allNFTs.push(response);
-//   }
-
-//   console.log(allNFTs);
-//   return allNFTs;
-// };
