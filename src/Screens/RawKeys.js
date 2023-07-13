@@ -4,11 +4,16 @@ import {Button, TextInput} from 'react-native-paper';
 import NfcManager, { Ndef, NfcTech } from 'react-native-nfc-manager';
 import '../../shimeth.js';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import '../../shim.js';
 =======
 import './shim.js';
 import Bitcoin from 'react-native-bitcoinjs-lib';
 >>>>>>> 4a15ca1 (Added all the dependences for React-Native-Bitcoin)
+=======
+import '../../shim.js';
+import Bitcoin  from 'react-native-bitcoinjs-lib';
+>>>>>>> 24cad9e (Working react-native-BitcoinJS-lib dependency)
 import Web3 from 'web3';
 import CryptoJS from 'crypto-js';
 import { ec as EC } from 'elliptic';
