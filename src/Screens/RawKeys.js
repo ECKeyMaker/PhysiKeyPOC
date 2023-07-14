@@ -20,10 +20,16 @@ import '../../shim.js';
 import Bitcoin  from 'react-native-bitcoinjs-lib';
 >>>>>>> 24cad9e (Working react-native-BitcoinJS-lib dependency)
 import Web3 from 'web3';
+<<<<<<< HEAD
 import CryptoJS from 'crypto-js';
 import { ec as EC } from 'elliptic';
 import * as bitcoin from 'bitcoinjs-lib';
 import argon2 from 'react-native-argon2';
+=======
+import { createHash } from 'react-native-crypto';
+import { ec as EC } from 'elliptic';
+
+>>>>>>> 16f3b3c (Started the Bitcoin Address / Private Key)
 
 
 let finalDataChain = ''; // append all inputValues to this variable
@@ -33,11 +39,15 @@ var web3 = new Web3(Web3.givenProvider);
 var privateKeyETH = '';
 var publicKeyETH = '';
 var privateKeyBTC = '';
+<<<<<<< HEAD
 var addressBTC = '';
 var addressNativeSegWit = '';
 var kdf = CryptoJS.algo.PBKDF2.create({ keySize: 8, hasher: CryptoJS.algo.SHA256, iterations: 1024 });
 const ec = new EC('secp256k1');
 const testnet = bitcoin.networks.testnet;
+=======
+var publicKeyBTC = '';
+>>>>>>> 16f3b3c (Started the Bitcoin Address / Private Key)
 
 function RawKeys(props) {
   const {navigation} = props;
@@ -199,6 +209,7 @@ function RawKeys(props) {
         style={styles.bigBtn} 
         onPress={ async () => {
 
+<<<<<<< HEAD
           showKeyStatusModal();
 
           console.warn('temp data chain before argon: ' + tempDataChain);
@@ -215,16 +226,43 @@ function RawKeys(props) {
           console.warn(argonResult);
           finalDataChain = argonResult.rawHash;
 
+=======
+>>>>>>> 16f3b3c (Started the Bitcoin Address / Private Key)
           // Eth address creation:
           const innerHash = web3.utils.keccak256(finalDataChain);
           privateKeyETH = web3.utils.keccak256(innerHash + finalDataChain);
 
+<<<<<<< HEAD
           var accountObjectETH = web3.eth.accounts.privateKeyToAccount(privateKeyETH);
           publicKeyETH = accountObjectETH.address;
 
           console.warn("ETH Private Key Test: " + accountObjectETH.privateKey + "   ETH Public Key: " + accountObjectETH.address);
 
           //BTC address creation:
+=======
+          const accountObject = web3.eth.accounts.privateKeyToAccount(privateKeyETH);
+          publicKeyETH = accountObject.address;
+
+          console.warn("ETH Private Key Test: " + accountObject.privateKey + "   ETH Public Key: " + accountObject.address);
+
+          //BTC address creation:
+
+          const sha256 = (message) => createHash('sha256').update(message).digest();
+
+          const generateKeyPair = () => {
+            const ec = new EC('secp256k1');
+            const firstHash = sha256(finalDataChain);
+            privateKeyBTC = sha256(firstHash + finalDataChain);
+            publicKeyBTC = ec.keyFromPrivate(privateKeyBTC).getPublic();
+            return { privateKeyBTC: privateKeyBTC.toString('hex'), publicKeyBTC: publicKeyBTC.toString('hex') };
+          };
+
+          privateKeyBTC, publicKeyBTC = generateKeyPair();
+          console.warn("BTC Private Key: " + privateKeyBTC + "   BTC Public Key: " + publicKeyBTC);
+
+          
+            
+>>>>>>> 16f3b3c (Started the Bitcoin Address / Private Key)
 
           const firstHash = CryptoJS.SHA256(finalDataChain).toString();
           privateKeyBTC = CryptoJS.SHA256(firstHash + finalDataChain).toString();
@@ -252,7 +290,11 @@ function RawKeys(props) {
           const keypair = Bitcoin.ECPair.makeRandom();
           console.warn(keypair.getAddress());
 
+<<<<<<< HEAD
 >>>>>>> 4a15ca1 (Added all the dependences for React-Native-Bitcoin)
+=======
+          // insert modal to done screen to print private/public key pair;
+>>>>>>> 16f3b3c (Started the Bitcoin Address / Private Key)
           showModal();
           hideKeyStatusModal();
 
@@ -289,16 +331,21 @@ function RawKeys(props) {
           <Text style={styles.bannerText} selectable>
             BTC Address(WIF Format): 
             {'\n'}
+<<<<<<< HEAD
             {addressBTC}
           </Text>
           <Text style={styles.bannerText} selectable>
             BTC Address(Native SegWit): 
+=======
+            {privateKeyETH}
+>>>>>>> 16f3b3c (Started the Bitcoin Address / Private Key)
             {'\n'}
             {addressNativeSegWit}
           </Text>
           <Text style={styles.bannerText} selectable>
             BTC Private Key(WIF Format):
             {'\n'}
+<<<<<<< HEAD
             {privateKeyBTC}
           </Text>
           <Text style={styles.bannerText} selectable>
@@ -310,6 +357,9 @@ function RawKeys(props) {
             ETH Private Key:
             {'\n'}
             {privateKeyETH}
+=======
+            {publicKeyETH}
+>>>>>>> 16f3b3c (Started the Bitcoin Address / Private Key)
             {'\n'}
           </Text>
           <Button 
