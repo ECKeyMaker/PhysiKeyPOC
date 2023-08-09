@@ -13,3 +13,10 @@ https://stackoverflow.com/questions/57664177/error-main-jsbundle-does-not-exist-
 Generate a new main.jsbundler file with this command: react-native bundle --entry-file index.js --platform ios --dev false --bundle-output ios/main.jsbundle --assets-dest ios
 
 Bitcoin Testnet Video: https://www.youtube.com/watch?v=LLZNvl90PC0
+
+
+
+Resources for P2WPKH transaction building:
+https://bitcoinjs-guide.bitcoin-studio.com/bitcoinjs-guide/v5/part-two-pay-to-public-key-hash/p2wpkh/p2wpkh_typical_1_2.html
+https://bitcoindev.network/guides/bitcoinjs-lib/native-segwit-p2wpkh/
+
