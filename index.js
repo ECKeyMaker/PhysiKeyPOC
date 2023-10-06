@@ -2,6 +2,7 @@
  * @format
  */
 
+import 'react-native-polyfill-globals/auto';
 import './shimeth.js';
 import './shim.js';
 import {AppRegistry} from 'react-native';

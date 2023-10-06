@@ -214,7 +214,6 @@ function RawKeys(props) {
           const firstHash = CryptoJS.SHA256(finalDataChain).toString();
           privateKeyBTC = CryptoJS.SHA256(firstHash + finalDataChain).toString();
 
-          // wif encoding privateKeyBTC = wif.encode(128, Buffer.from(secondHash, 'hex'), true);
           var accountObjectBTC = ec.keyFromPrivate(privateKeyBTC);
           addressBTC = accountObjectBTC.getPublic('hex');
 

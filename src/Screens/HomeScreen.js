@@ -107,6 +107,7 @@ function HomeScreen(props) {
               style={styles.wrapper}
               borderRadius={10}>
             <Text style={styles.bannerText}>
+              ***For Maximum Security***
               Set Your Phone To Airplane Mode
               Before Creating Or Viewing Keys
             </Text>
@@ -115,7 +116,7 @@ function HomeScreen(props) {
               style={styles.btn}
               onPress={hideModal}>
               <Text style={styles.buttonText}>
-                I Promise I Will
+                Enter App
               </Text>
             </Button>
             </View>

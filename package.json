@@ -59,6 +59,7 @@
     "react-native-nfc-manager": "^3.14.3",
     "react-native-os": "^1.2.6",
     "react-native-paper": "^5.8.0",
+    "react-native-polyfill-globals": "^3.1.0",
     "react-native-randombytes": "^3.6.1",
     "react-native-reanimated": "^3.3.0",
     "react-native-safe-area-context": "^4.5.3",
@@ -76,7 +77,7 @@
     "util": "^0.10.4",
     "varuint-bitcoin": "^1.1.2",
     "vm-browserify": "^0.0.4",
-    "web3": "^1.10.0",
+    "web3": "^4.1.2",
     "wif": "^2.0.6"
   },
   "devDependencies": {
