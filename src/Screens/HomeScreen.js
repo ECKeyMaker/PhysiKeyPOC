@@ -1,7 +1,8 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, ImageBackground, Modal} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, ImageBackground, Modal, Image, StatusBar} from 'react-native';
 import {Button} from 'react-native-paper';
 import NfcManager from 'react-native-nfc-manager';
+import Swiper from 'react-native-swiper';
 
 function HomeScreen(props) {
     const {navigation} = props;
@@ -58,46 +59,68 @@ function HomeScreen(props) {
       }
 
       return(
-        <View style={styles.bottom}>
 
-          <Button 
-          mode="contained" 
-          style={[styles.btn]}
-          onPress={() => {
-            navigation.navigate('Account Portal 1');
-          }}>
-            <Text style={styles.buttonText}>
-                Account Portal
-            </Text>
-          </Button>
+        <View>
+          <StatusBar style='auto'/>
+          <Swiper>
 
-          <Button 
-          mode="contained" 
-          style={styles.btn} 
-          onPress={() => {
-            navigation.navigate('Raw Keys');
-          }}>
-            <Text style={styles.buttonText}>
-                Export Keys
-            </Text>
-          </Button>
+            <Image
+              source={require('../assets/tutart1.png')}
+              style={styles.image}
+            />
+            <Image
+              source={require('../assets/tutart2.png')}
+              style={styles.image}
+            />
+            <Image
+              source={require('../assets/tutart3.png')}
+              style={styles.image}
+            />
 
-          <Button 
-          mode="contained" 
-          style={[styles.btn]}
-          onPress={() => {
-            navigation.navigate('Create Access Card');
-          }}>
-            <Text style={styles.buttonText}>
-                Create Access Card
-            </Text>
-          </Button>
+          </Swiper>
+
+          <View style={styles.bottom}>
+
+            <Button 
+            mode="contained" 
+            style={[styles.btn]}
+            onPress={() => {
+              navigation.navigate('Account Portal 1');
+            }}>
+              <Text style={styles.buttonText}>
+                  Account Portal
+              </Text>
+            </Button>
+
+            <Button 
+            mode="contained" 
+            style={styles.btn} 
+            onPress={() => {
+              navigation.navigate('Raw Keys');
+            }}>
+              <Text style={styles.buttonText}>
+                  Export Keys
+              </Text>
+            </Button>
+
+            <Button 
+            mode="contained" 
+            style={[styles.btn]}
+            onPress={() => {
+              navigation.navigate('Create Access Card');
+            }}>
+              <Text style={styles.buttonText}>
+                  Create Access Card
+              </Text>
+            </Button>
+          </View>
         </View>
       )
 
     }
 
   return (
+
       <View style={styles.wrapper}>
         <View style={styles.wrapper}>
           <Modal  
@@ -121,11 +144,6 @@ function HomeScreen(props) {
             </Button>
             </View>
           </Modal>
-          <Text style={styles.bannerText}>
-          AnyWare
-          {'\n'}
-          Access
-          </Text>
         </View>
         {renderNfcButtons()}
       </View>
@@ -140,12 +158,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   bannerText: {
-    fontSize: 40,
+    fontSize: 30,
     textAlign: 'center',
     color: 'black',
     fontVariant: 'small-caps',
     fontWeight: 'bold',
-    paddingHorizontal: 20,
   },
   buttonText: {
     fontSize: 20,
@@ -154,8 +171,10 @@ const styles = StyleSheet.create({
     fontVariant: 'small-caps',
   },
   bottom: {
+    alignItems: 'center',
+    justifyContent: 'center',
     paddingHorizontal: 20,
-    paddingVertical: 40,
+    paddingVertical: 5,
   },
   btn: {
     width: 250,
@@ -165,6 +184,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  image: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 20,
+    paddingHorizontal: 20,
   },
 });
 
