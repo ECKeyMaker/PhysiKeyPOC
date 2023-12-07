@@ -118,9 +118,12 @@ function AccountPortal2(props) {
         Password Count: {textCount}
         {'\n'}
         {' '}Card Count: {tagCount}
+<<<<<<< HEAD
 >>>>>>> 31219cf (User Experience Fixes with new language)
 
       Repeat
+=======
+>>>>>>> 31219cf (User Experience Fixes with new language)
 
       </Text>
         <View style={[styles.textInput]}>
@@ -157,10 +160,13 @@ function AccountPortal2(props) {
               Password Input
             </Text>
           </Button>
+<<<<<<< HEAD
 
           <Button 
 >>>>>>> 31219cf (User Experience Fixes with new language)
 =======
+=======
+>>>>>>> 31219cf (User Experience Fixes with new language)
 
       Repeat
 
@@ -234,6 +240,7 @@ function AccountPortal2(props) {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
               PIN Input
 =======
               Read Card
@@ -244,6 +251,9 @@ function AccountPortal2(props) {
 =======
               PIN Input
 >>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
+=======
+              Read Card
+>>>>>>> 31219cf (User Experience Fixes with new language)
             </Text>
           </Button>
 
@@ -253,7 +263,10 @@ function AccountPortal2(props) {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 31219cf (User Experience Fixes with new language)
         
         <Button 
           mode="contained" 
@@ -754,6 +767,7 @@ const styles = StyleSheet.create({
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
   scanBtn: {
@@ -794,6 +808,10 @@ const styles = StyleSheet.create({
     width: 200,
 =======
 >>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
+=======
+  smallBtn: {
+    width: 300,
+>>>>>>> 31219cf (User Experience Fixes with new language)
     height: 50,
     marginBottom: 15,
     borderRadius:15, 

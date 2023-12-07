@@ -25,6 +25,7 @@ function HomeScreen(props) {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
 =======
@@ -38,6 +39,8 @@ function HomeScreen(props) {
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> 31219cf (User Experience Fixes with new language)
       [require('../assets/TutorialArt1.png'),'A Whole New Digital Access Experience','Welcome to ','Anywhere Access'],
       [require('../assets/CardsImage.png'),'Create An Access Card','Step 1 - Create Card'],
       [require('../assets/StorageSystem.png'),'Backup Your Access Card By Duplicating It','Step 2 - Copy Card'],
@@ -48,11 +51,14 @@ function HomeScreen(props) {
       [require('../assets/SendMoney.png'),'Your Access Combination Must Be In The Same Order Of Operations Every Time','Step 7 - \n Access Combination = \n Account Number'],
       [require('../assets/SendMoney.png'),'Every New Access Combination Creates Different Accounts','Different Order / Different Accounts'],
       [require('../assets/TutorialArt2.png'),'Send and Receive \n Bitcoin and Ethereum!','Step 8'],
+<<<<<<< HEAD
 >>>>>>> 31219cf (User Experience Fixes with new language)
 =======
 >>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
 =======
 >>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
+=======
+>>>>>>> 31219cf (User Experience Fixes with new language)
 
     ];
 
@@ -185,6 +191,7 @@ function HomeScreen(props) {
 =======
             <Text style={styles.titleTextBlack}>Get Started</Text>
             <Text style={styles.bodyTextGray}>Create Your Cards - Then Access Your Account</Text>
+<<<<<<< HEAD
 >>>>>>> 31219cf (User Experience Fixes with new language)
 =======
             <Text style={styles.titleTextBlack}>Create Your Cards {'\n'} Then Access Your Account</Text>
@@ -192,6 +199,8 @@ function HomeScreen(props) {
 =======
             <Text style={styles.titleTextBlack}>Create Your Cards {'\n'} Then Access Your Account</Text>
 >>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
+=======
+>>>>>>> 31219cf (User Experience Fixes with new language)
             <Button 
               mode="contained" 
               style={[styles.btn]}
