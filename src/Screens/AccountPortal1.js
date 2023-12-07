@@ -55,12 +55,55 @@ function AccountPortal1(props) {
   return (
     <View style={styles.wrapper}>
       <Text style={styles.bannerText}>
+<<<<<<< HEAD
+=======
+        
+        Access Combination: 
+        {'\n'}
+        {'\n'}
+        Password Count: {textCount}
+        {'\n'}
+        {' '}Card Count: {tagCount}
+>>>>>>> 31219cf (User Experience Fixes with new language)
 
       Scan Card Once Then Input PIN
         
       </Text>
         <View style={[styles.textInput]}>
 
+<<<<<<< HEAD
+=======
+          <TextInput
+            style={styles.textInput}
+            placeholder="Type Password or PIN"
+            autoComplete='off'
+            autoCorrect={false}
+            inputValue={inputTextValue}
+            onChangeText={setInputTextValues}
+            autoCapitalize={false}
+            backgroundColor={'grey'}
+            color={'white'}
+            returnKeyType={'done'}
+          />
+          
+          <Button 
+            mode="contained" 
+            style={styles.smallBtn} 
+            onPress={() => {
+              tempDataChain += inputTextValue;
+              console.warn(tempDataChain);
+              finalDataChain += kdf.compute(tempDataChain, salt).toString();
+              console.warn(finalDataChain);
+              tempDataChain = finalDataChain;
+              setTextCount(textCount+1); // plain text input count ++
+            }
+            }>
+            <Text style={styles.buttonText}>
+              Password Input
+            </Text>
+          </Button>
+
+>>>>>>> 31219cf (User Experience Fixes with new language)
           <Button 
           mode="contained" 
           style={[styles.scanBtn]}
@@ -115,13 +158,40 @@ function AccountPortal1(props) {
             }
             }>
             <Text style={styles.buttonText}>
+<<<<<<< HEAD
               Input PIN
+=======
+              Read Card
+>>>>>>> 31219cf (User Experience Fixes with new language)
             </Text>
           </Button>
 
         </View>
 
         <View style={styles.bottom}>
+<<<<<<< HEAD
+=======
+        
+        <Button 
+        mode="contained" 
+        style={styles.bigBtn} 
+        onPress={ () => {
+
+          if (finalDataChain.length > 53){
+
+          showModal();
+
+          } else {
+            showErrorModal()
+          }
+
+          }
+        }>
+            <Text style={styles.buttonText}>
+              Continue
+            </Text>
+        </Button>
+>>>>>>> 31219cf (User Experience Fixes with new language)
 
         <Button 
           mode="contained" 
@@ -145,7 +215,11 @@ function AccountPortal1(props) {
           <View 
             style={styles.wrapper}
             borderRadius={10}>
+<<<<<<< HEAD
           <Text style={styles.bannerText} selectable>Repeat Card/PIN Input To Verify Access</Text>
+=======
+          <Text style={styles.bannerText} selectable>Repeat Card/Password Input Order On Next Screen To Verify Access Combination</Text>
+>>>>>>> 31219cf (User Experience Fixes with new language)
           
           <Button 
             mode="contained"
@@ -189,7 +263,11 @@ function AccountPortal1(props) {
             <View 
               style={styles.wrapper}
               borderRadius={10}>
+<<<<<<< HEAD
             <Text style={styles.bannerText} selectable>Access Error {'\n'} {'\n'} Scan Card Once Then Input PIN</Text>
+=======
+            <Text style={styles.bannerText} selectable>No Access Combination Detected - Start Again</Text>
+>>>>>>> 31219cf (User Experience Fixes with new language)
 
             <Button 
             mode="contained"
@@ -241,6 +319,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 40,
   },
+<<<<<<< HEAD
   scanBtn: {
     width: 300,
     height: 50,
@@ -256,6 +335,10 @@ const styles = StyleSheet.create({
   },
   pinBtn: {
     width: 200,
+=======
+  smallBtn: {
+    width: 300,
+>>>>>>> 31219cf (User Experience Fixes with new language)
     height: 50,
     marginBottom: 15,
     borderRadius:15, 

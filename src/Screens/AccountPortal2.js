@@ -108,13 +108,56 @@ function AccountPortal2(props) {
   return (
     <View style={styles.wrapper}>
       <Text style={styles.bannerText}>
+<<<<<<< HEAD
+=======
+        
+        Access Combination: 
+        {'\n'} {'\n'}
+        Password Count: {textCount}
+        {'\n'}
+        {' '}Card Count: {tagCount}
+>>>>>>> 31219cf (User Experience Fixes with new language)
 
       Repeat
 
       </Text>
         <View style={[styles.textInput]}>
 
+<<<<<<< HEAD
         <Button 
+=======
+          <TextInput
+            style={styles.textInput}
+            placeholder="Type Password or PIN"
+            autoComplete='off'
+            autoCorrect={false}
+            inputValue={inputTextValue}
+            onChangeText={setInputTextValues}
+            autoCapitalize={false}
+            backgroundColor={'grey'}
+            color={'white'}
+            returnKeyType={'done'}
+          />
+          
+          <Button 
+            mode="contained" 
+            style={styles.smallBtn} 
+            onPress={() => {
+              tempDataChain += inputTextValue;
+              console.warn(tempDataChain);
+              finalDataChain += kdf.compute(tempDataChain, salt).toString();
+              console.warn(finalDataChain);
+              tempDataChain = finalDataChain;
+              setTextCount(textCount+1); // plain text input count ++
+            }
+            }>
+            <Text style={styles.buttonText}>
+              Password Input
+            </Text>
+          </Button>
+
+          <Button 
+>>>>>>> 31219cf (User Experience Fixes with new language)
           mode="contained" 
           style={[styles.scanBtn]}
           onPress={ async () => {
@@ -168,13 +211,146 @@ function AccountPortal2(props) {
             }
             }>
             <Text style={styles.buttonText}>
+<<<<<<< HEAD
               PIN Input
+=======
+              Read Card
+>>>>>>> 31219cf (User Experience Fixes with new language)
             </Text>
           </Button>
 
         </View>
 
         <View style={styles.bottom}>
+<<<<<<< HEAD
+=======
+        
+        <Button 
+          mode="contained" 
+          style={styles.bigBtn} 
+          onPress={ async () => {
+
+            if (inputCheck === finalDataChain){
+
+              showKeyStatusModal();
+
+              console.warn('temp data chain before argon: ' + tempDataChain);
+              const argonResult = await argon2(
+                tempDataChain,
+                salt,
+                {
+                  iterations:5,
+                  memory: 65536,
+                  parallelism: 2,
+                  mode: 'argon2id'
+                }
+              ); 
+              console.warn(argonResult);
+              finalDataChain = argonResult.rawHash;
+
+              const innerHash = web3.utils.keccak256(finalDataChain);
+              var privateKey = web3.utils.keccak256(innerHash + finalDataChain);
+
+              oneTimeEncryptionPW = web3.utils.randomHex(32);
+              encryptedPrivateKey = CryptoJS.AES.encrypt(privateKey, oneTimeEncryptionPW).toString();;
+              var decryptedAccount = web3.eth.accounts.privateKeyToAccount(privateKey);
+              publicKey = decryptedAccount.address;
+
+              setInputTagValues(encryptedPrivateKey);
+              console.warn(encryptedPrivateKey);
+              console.warn(oneTimeEncryptionPW);
+
+              // reset all values containing sensitive data to null / baseline:
+              decryptedAccount = {};
+              privateKey = '';
+              finalDataChain = ''; //clear finalDataChain
+              tempDataChain = '';
+              inputCheck = '';
+
+              //console.warn(encryptedPrivateKey);
+
+                // need encryption of private key, and need to pass encryption password to Account Display
+                // insert modal to done screen to print private/public key pair;
+                // when you do the comparison, only store the public key, so the private key isn't in memory until verifcation
+              showModal();
+              hideKeyStatusModal();
+            }
+            else{
+              showErrorModal();
+            }
+          }
+        }>
+          <Text style={styles.buttonText}>
+            Access ETH
+          </Text>
+        </Button>
+
+        <Button 
+          mode="contained" 
+          style={styles.bigBtn} 
+          onPress={ async () => {
+
+            if (inputCheck === finalDataChain){
+
+              showKeyStatusModal();
+
+              console.warn('temp data chain before argon: ' + tempDataChain);
+              const argonResult = await argon2(
+                  tempDataChain,
+                  salt,
+                  {
+                    iterations:5,
+                    memory: 65536,
+                    parallelism: 2,
+                    mode: 'argon2id'
+                  }
+              ); 
+              console.warn(argonResult);
+              finalDataChain = argonResult.rawHash;
+
+              const firstHash = CryptoJS.SHA256(finalDataChain).toString();
+              privateKey = CryptoJS.SHA256(firstHash + finalDataChain).toString();
+
+              oneTimeEncryptionPW = web3.utils.randomHex(32);
+              encryptedPrivateKey = CryptoJS.AES.encrypt(privateKey, oneTimeEncryptionPW).toString();
+              var keyPairBTC = ec.keyFromPrivate(privateKey);
+              var compressedPublicKeyBTC = keyPairBTC.getPublic(true, 'hex'); // Compressed public key
+
+              var { address } = bitcoin.payments.p2wpkh({ pubkey: Buffer.from(compressedPublicKeyBTC, 'hex'), network: testnet });
+              publicKey = address;
+
+              setInputTagValues(encryptedPrivateKey);
+              console.warn(privateKey);
+              console.warn(publicKey);
+              console.warn(encryptedPrivateKey);
+              console.warn(oneTimeEncryptionPW);
+
+              // reset all values containing sensitive data to null / baseline:
+              keyPairBTC = {};
+              privateKey = '';
+              finalDataChain = ''; //clear finalDataChain
+              tempDataChain = '';
+              inputCheck = '';
+
+              //console.warn(encryptedPrivateKey);
+
+                // need encryption of private key, and need to pass encryption password to Account Display
+                // insert modal to done screen to print private/public key pair;
+                // when you do the comparison, only store the public key, so the private key isn't in memory until verifcation
+
+              showModal();
+              hideKeyStatusModal();
+            } else {
+              showErrorModal();
+            }
+
+          }
+        }>
+          <Text style={styles.buttonText}>
+            Access BTC
+          </Text>
+        </Button>
+>>>>>>> 31219cf (User Experience Fixes with new language)
 
         <Button 
           mode="contained" 
@@ -541,6 +717,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+<<<<<<< HEAD
   scanBtn: {
     width: 300,
     height: 50,
@@ -556,6 +733,10 @@ const styles = StyleSheet.create({
   },
   pinBtn: {
     width: 200,
+=======
+  smallBtn: {
+    width: 300,
+>>>>>>> 31219cf (User Experience Fixes with new language)
     height: 50,
     marginBottom: 15,
     borderRadius:15, 
