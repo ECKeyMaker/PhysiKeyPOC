@@ -56,6 +56,7 @@ function AccountPortal1(props) {
     <View style={styles.wrapper}>
       <Text style={styles.bannerText}>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         
         Access Combination: 
@@ -65,12 +66,15 @@ function AccountPortal1(props) {
         {'\n'}
         {' '}Card Count: {tagCount}
 >>>>>>> 31219cf (User Experience Fixes with new language)
+=======
+>>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
 
       Scan Card Once Then Input PIN
         
       </Text>
         <View style={[styles.textInput]}>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
           <TextInput
@@ -104,6 +108,8 @@ function AccountPortal1(props) {
           </Button>
 
 >>>>>>> 31219cf (User Experience Fixes with new language)
+=======
+>>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
           <Button 
           mode="contained" 
           style={[styles.scanBtn]}
@@ -159,16 +165,21 @@ function AccountPortal1(props) {
             }>
             <Text style={styles.buttonText}>
 <<<<<<< HEAD
+<<<<<<< HEAD
               Input PIN
 =======
               Read Card
 >>>>>>> 31219cf (User Experience Fixes with new language)
+=======
+              Input PIN
+>>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
             </Text>
           </Button>
 
         </View>
 
         <View style={styles.bottom}>
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
         
@@ -192,6 +203,8 @@ function AccountPortal1(props) {
             </Text>
         </Button>
 >>>>>>> 31219cf (User Experience Fixes with new language)
+=======
+>>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
 
         <Button 
           mode="contained" 
@@ -216,10 +229,14 @@ function AccountPortal1(props) {
             style={styles.wrapper}
             borderRadius={10}>
 <<<<<<< HEAD
+<<<<<<< HEAD
           <Text style={styles.bannerText} selectable>Repeat Card/PIN Input To Verify Access</Text>
 =======
           <Text style={styles.bannerText} selectable>Repeat Card/Password Input Order On Next Screen To Verify Access Combination</Text>
 >>>>>>> 31219cf (User Experience Fixes with new language)
+=======
+          <Text style={styles.bannerText} selectable>Repeat Card/PIN Input To Verify Access</Text>
+>>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
           
           <Button 
             mode="contained"
@@ -264,10 +281,14 @@ function AccountPortal1(props) {
               style={styles.wrapper}
               borderRadius={10}>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <Text style={styles.bannerText} selectable>Access Error {'\n'} {'\n'} Scan Card Once Then Input PIN</Text>
 =======
             <Text style={styles.bannerText} selectable>No Access Combination Detected - Start Again</Text>
 >>>>>>> 31219cf (User Experience Fixes with new language)
+=======
+            <Text style={styles.bannerText} selectable>Access Error {'\n'} {'\n'} Scan Card Once Then Input PIN</Text>
+>>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
 
             <Button 
             mode="contained"
@@ -320,6 +341,7 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
   },
 <<<<<<< HEAD
+<<<<<<< HEAD
   scanBtn: {
     width: 300,
     height: 50,
@@ -337,8 +359,24 @@ const styles = StyleSheet.create({
     width: 200,
 =======
   smallBtn: {
+=======
+  scanBtn: {
+>>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
     width: 300,
 >>>>>>> 31219cf (User Experience Fixes with new language)
+    height: 50,
+    marginBottom: 15,
+    borderRadius:15, 
+    borderColor:'gray',
+    color: 'black',
+    borderWidth: 1,
+    color: 'white',
+    backgroundColor: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  pinBtn: {
+    width: 200,
     height: 50,
     marginBottom: 15,
     borderRadius:15, 

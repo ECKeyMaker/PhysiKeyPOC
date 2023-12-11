@@ -109,6 +109,7 @@ function AccountPortal2(props) {
     <View style={styles.wrapper}>
       <Text style={styles.bannerText}>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         
         Access Combination: 
@@ -158,6 +159,15 @@ function AccountPortal2(props) {
 
           <Button 
 >>>>>>> 31219cf (User Experience Fixes with new language)
+=======
+
+      Repeat
+
+      </Text>
+        <View style={[styles.textInput]}>
+
+        <Button 
+>>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
           mode="contained" 
           style={[styles.scanBtn]}
           onPress={ async () => {
@@ -212,16 +222,21 @@ function AccountPortal2(props) {
             }>
             <Text style={styles.buttonText}>
 <<<<<<< HEAD
+<<<<<<< HEAD
               PIN Input
 =======
               Read Card
 >>>>>>> 31219cf (User Experience Fixes with new language)
+=======
+              PIN Input
+>>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
             </Text>
           </Button>
 
         </View>
 
         <View style={styles.bottom}>
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
         
@@ -351,6 +366,8 @@ function AccountPortal2(props) {
           </Text>
         </Button>
 >>>>>>> 31219cf (User Experience Fixes with new language)
+=======
+>>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
 
         <Button 
           mode="contained" 
@@ -718,6 +735,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 <<<<<<< HEAD
+<<<<<<< HEAD
   scanBtn: {
     width: 300,
     height: 50,
@@ -735,8 +753,24 @@ const styles = StyleSheet.create({
     width: 200,
 =======
   smallBtn: {
+=======
+  scanBtn: {
+>>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
     width: 300,
 >>>>>>> 31219cf (User Experience Fixes with new language)
+    height: 50,
+    marginBottom: 15,
+    borderRadius:15, 
+    borderColor:'gray',
+    color: 'black',
+    borderWidth: 1,
+    color: 'white',
+    backgroundColor: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  pinBtn: {
+    width: 200,
     height: 50,
     marginBottom: 15,
     borderRadius:15, 
