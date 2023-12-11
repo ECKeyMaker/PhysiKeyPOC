@@ -24,6 +24,9 @@ function HomeScreen(props) {
     const swiperSlides = [
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
 =======
 >>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
       [require('../assets/TutorialArt1.png'),'A Whole New \n Digital Access Experience','Anywhere Access \n Tutorial'],
@@ -32,6 +35,7 @@ function HomeScreen(props) {
       [require('../assets/VerificationSuccessful.png'),'Lock Your Access Cards \n To Prevent Overwrites','3 - Lock Your Cards'],
       [require('../assets/TutorialArt3.png'),'Scan Your Card Like a Credit Card To Access Your Accounts','4 - Account Portal'],
       [require('../assets/TutorialArt4.png'),'Send and Receive \n Bitcoin and Ethereum!'],
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
       [require('../assets/TutorialArt1.png'),'A Whole New Digital Access Experience','Welcome to ','Anywhere Access'],
@@ -45,6 +49,8 @@ function HomeScreen(props) {
       [require('../assets/SendMoney.png'),'Every New Access Combination Creates Different Accounts','Different Order / Different Accounts'],
       [require('../assets/TutorialArt2.png'),'Send and Receive \n Bitcoin and Ethereum!','Step 8'],
 >>>>>>> 31219cf (User Experience Fixes with new language)
+=======
+>>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
 =======
 >>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
 
@@ -174,11 +180,15 @@ function HomeScreen(props) {
           <View>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             <Text style={styles.titleTextBlack}>Create Your Cards {'\n'} Then Access Your Account</Text>
 =======
             <Text style={styles.titleTextBlack}>Get Started</Text>
             <Text style={styles.bodyTextGray}>Create Your Cards - Then Access Your Account</Text>
 >>>>>>> 31219cf (User Experience Fixes with new language)
+=======
+            <Text style={styles.titleTextBlack}>Create Your Cards {'\n'} Then Access Your Account</Text>
+>>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
 =======
             <Text style={styles.titleTextBlack}>Create Your Cards {'\n'} Then Access Your Account</Text>
 >>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)

@@ -110,6 +110,7 @@ function AccountPortal2(props) {
       <Text style={styles.bannerText}>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         
         Access Combination: 
@@ -159,6 +160,15 @@ function AccountPortal2(props) {
 
           <Button 
 >>>>>>> 31219cf (User Experience Fixes with new language)
+=======
+
+      Repeat
+
+      </Text>
+        <View style={[styles.textInput]}>
+
+        <Button 
+>>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
 =======
 
       Repeat
@@ -223,10 +233,14 @@ function AccountPortal2(props) {
             <Text style={styles.buttonText}>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
               PIN Input
 =======
               Read Card
 >>>>>>> 31219cf (User Experience Fixes with new language)
+=======
+              PIN Input
+>>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
 =======
               PIN Input
 >>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
@@ -236,6 +250,7 @@ function AccountPortal2(props) {
         </View>
 
         <View style={styles.bottom}>
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 =======
@@ -366,6 +381,8 @@ function AccountPortal2(props) {
           </Text>
         </Button>
 >>>>>>> 31219cf (User Experience Fixes with new language)
+=======
+>>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
 =======
 >>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
 
@@ -736,6 +753,9 @@ const styles = StyleSheet.create({
   },
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
   scanBtn: {
     width: 300,
     height: 50,
@@ -751,6 +771,7 @@ const styles = StyleSheet.create({
   },
   pinBtn: {
     width: 200,
+<<<<<<< HEAD
 =======
   smallBtn: {
 =======
@@ -771,6 +792,8 @@ const styles = StyleSheet.create({
   },
   pinBtn: {
     width: 200,
+=======
+>>>>>>> 80ea4f1 (- Reduced the account portal user experience down to)
     height: 50,
     marginBottom: 15,
     borderRadius:15, 
