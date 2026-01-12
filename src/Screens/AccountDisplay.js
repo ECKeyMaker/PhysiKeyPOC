@@ -6,6 +6,11 @@ import { useRoute } from '@react-navigation/native';
 import Config from 'react-native-config';
 import Web3 from 'web3';
 import CryptoJS from 'crypto-js';
+<<<<<<< HEAD
+=======
+
+var tempEncryptedPrivateKey;
+>>>>>>> 8526568ce5fc66ef060a2e42cd20413a34a1ec0f
 
 var tempEncryptedPrivateKey;
 
@@ -45,7 +50,11 @@ function AccountDisplay(props) {
       const tagPayload = tagData.ndefMessage[0].payload; //isolates payload of the ndefmessage
       
       tagPayload.shift(); // removes the 0th index of the tagPayload so it is only the record written to the tag
+<<<<<<< HEAD
       let nfcRead = await String.fromCharCode(...tagPayload); // concats the string of the tagPayload into original string
+=======
+      let nfcRead = await String.fromCharCode(...tagPayload); // concats the string of the tagPayload into a single string of #s
+>>>>>>> 8526568ce5fc66ef060a2e42cd20413a34a1ec0f
 
       //console.warn(nfcRead); //print the information read from the tag
 
@@ -148,8 +157,16 @@ function AccountDisplay(props) {
   }
   
   return (
+<<<<<<< HEAD
       
     <View style={{ flex: 1, backgroundColor: '#F4F5F7' }} >
+=======
+    <ImageBackground source={require('../assets/AnyWareBackground.png')}
+    style={styles.backgroundImage}>
+    <SafeAreaView style={[{ flex: 1 }]}>
+      <Text style={styles.bannerText} selectable>{publicKey}</Text>
+      <Text style={styles.bannerText}>Account Balance: {accountBalance}</Text>
+>>>>>>> 8526568ce5fc66ef060a2e42cd20413a34a1ec0f
 
       <View style={styles.container}>
       
@@ -184,9 +201,15 @@ function AccountDisplay(props) {
             autoCorrect={false}
             inputValue={accountToSend}
             onChangeText={setAccountToSend}
+<<<<<<< HEAD
             autoCapitalize={false}
             returnKeyType={'done'}
             
+=======
+            backgroundColor={'white'}
+            color={'black'}
+          />
+>>>>>>> 8526568ce5fc66ef060a2e42cd20413a34a1ec0f
 
             />
         <Text style={styles.inputText}>Input Amount:</Text>
@@ -198,6 +221,7 @@ function AccountDisplay(props) {
             autoCorrect={false}
             inputValue={amountToSend}
             onChangeText={setAmountToSend}
+<<<<<<< HEAD
             autoCapitalize={false}
             returnKeyType={'done'}
             keyboardType={'numeric'}
@@ -225,6 +249,34 @@ function AccountDisplay(props) {
         </Button>
 
         <Modal  
+=======
+            backgroundColor={'white'}
+            color={'black'}
+          />
+      <View style={styles.wrapper}>
+        <Button 
+              mode="contained" 
+              style={styles.btn} 
+              onPress={() => {
+              signTransaction();
+              }}>
+              Sign/Send
+        </Button>
+
+        <Button 
+              mode="contained" 
+              style={styles.btn} 
+              onPress={() => {
+                web3.eth.getBalance(publicKey, (err, bal) => {
+                setAccountBalance(web3.utils.fromWei(bal.toString(), 'ether'));
+                });;
+              }}>
+              Refresh Balance
+        </Button>
+      </View>
+    
+      <Modal  
+>>>>>>> 8526568ce5fc66ef060a2e42cd20413a34a1ec0f
         visible = {modalVisible}>
           <View 
             backgroundColor={'black'}
@@ -644,6 +696,7 @@ publicKeyText: {
 
 export default AccountDisplay;
 
+<<<<<<< HEAD
 
 
 
@@ -719,3 +772,5 @@ export default AccountDisplay;
             </Text>
         </Button>
       </View> */}
+=======
+>>>>>>> 8526568ce5fc66ef060a2e42cd20413a34a1ec0f

@@ -110,12 +110,19 @@ function RawKeys(props) {
             label="Add Text to Input"
             autoComplete='off'
             autoCorrect={false}
+<<<<<<< HEAD
             inputValue={inputTextValue}
             onChangeText={setInputTextValues}
             autoCapitalize={false}
             backgroundColor={'grey'}
             color={'white'}
             returnKeyType={'done'}
+=======
+            inputValue={inputValue}
+            onChangeText={setInputValues}
+            backgroundColor={'white'}
+            color={'black'}
+>>>>>>> 8526568ce5fc66ef060a2e42cd20413a34a1ec0f
           />
           
           <Button 
@@ -329,7 +336,11 @@ function RawKeys(props) {
             style={styles.wrapper}
             borderRadius={10}>
           <Text style={styles.bannerText} selectable>
+<<<<<<< HEAD
             BTC Address(WIF Format): 
+=======
+            Private Key:
+>>>>>>> 8526568ce5fc66ef060a2e42cd20413a34a1ec0f
             {'\n'}
 <<<<<<< HEAD
             {addressBTC}
