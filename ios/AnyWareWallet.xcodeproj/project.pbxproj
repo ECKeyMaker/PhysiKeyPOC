@@ -8,10 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* AnyWareWalletTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* AnyWareWalletTests.m */; };
+<<<<<<< HEAD
 		0A33301B2A65DDD900C7EA29 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0A33301A2A65DDD900C7EA29 /* main.jsbundle */; };
+<<<<<<< HEAD
 		0AA3A38F2BB23FFB006553DC /* Logo for app.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AA3A38E2BB23FFB006553DC /* Logo for app.png */; };
 		0AE86C232BB6800300B266C4 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0AE86C222BB6800300B266C4 /* PrivacyInfo.xcprivacy */; };
 		0EBFF38AA65FAC6464ECDACA /* libPods-AnyWareWallet-AnyWareWalletTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77D225DCC52CB1FF257EC587 /* libPods-AnyWareWallet-AnyWareWalletTests.a */; };
+=======
+=======
+		0AD9D8992A48D1F800CDE990 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0AD9D8982A48D1F800CDE990 /* main.jsbundle */; };
+>>>>>>> 8526568ce5fc66ef060a2e42cd20413a34a1ec0f
+>>>>>>> a139bcd862e8189e9c9fe02111c3516c1db83e86
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -33,10 +40,17 @@
 		00E356EE1AD99517003FC87E /* AnyWareWalletTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnyWareWalletTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* AnyWareWalletTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnyWareWalletTests.m; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		0A33301A2A65DDD900C7EA29 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
+=======
+>>>>>>> 8526568ce5fc66ef060a2e42cd20413a34a1ec0f
 		0A9F89D72A1590260040A4C1 /* AnyWareWallet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = AnyWareWallet.entitlements; path = AnyWareWallet/AnyWareWallet.entitlements; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		0AA3A38E2BB23FFB006553DC /* Logo for app.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Logo for app.png"; path = "../../Desktop/AnyWare Wallet/Mo Design Work/New logos/png/Logo for app.png"; sourceTree = "<group>"; };
 		0AE86C222BB6800300B266C4 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+=======
+		0AD9D8982A48D1F800CDE990 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
+>>>>>>> a139bcd862e8189e9c9fe02111c3516c1db83e86
 		13B07F961A680F5B00A75B9A /* AnyWareWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnyWareWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = AnyWareWallet/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = AnyWareWallet/AppDelegate.mm; sourceTree = "<group>"; };
@@ -93,7 +107,11 @@
 		13B07FAE1A68108700A75B9A /* AnyWareWallet */ = {
 			isa = PBXGroup;
 			children = (
+<<<<<<< HEAD
 				0A33301A2A65DDD900C7EA29 /* main.jsbundle */,
+=======
+				0AD9D8982A48D1F800CDE990 /* main.jsbundle */,
+>>>>>>> 8526568ce5fc66ef060a2e42cd20413a34a1ec0f
 				0A9F89D72A1590260040A4C1 /* AnyWareWallet.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -253,8 +271,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+<<<<<<< HEAD
 				0AA3A38F2BB23FFB006553DC /* Logo for app.png in Resources */,
+=======
+<<<<<<< HEAD
+>>>>>>> a139bcd862e8189e9c9fe02111c3516c1db83e86
 				0A33301B2A65DDD900C7EA29 /* main.jsbundle in Resources */,
+=======
+				0AD9D8992A48D1F800CDE990 /* main.jsbundle in Resources */,
+>>>>>>> 8526568ce5fc66ef060a2e42cd20413a34a1ec0f
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				0AE86C232BB6800300B266C4 /* PrivacyInfo.xcprivacy in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
