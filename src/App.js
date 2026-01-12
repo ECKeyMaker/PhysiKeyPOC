@@ -1,5 +1,6 @@
 // In App.js in a new project
 
+import '../shimeth.js';
 import '../shim.js';
 import * as React from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';

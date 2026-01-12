@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import {
-  SafeAreaView, StyleSheet, Text, View, ImageBackground, Modal} from 'react-native';
+import {Image, SafeAreaView, StyleSheet, Text, View, TouchableOpacity, ImageBackground, Modal} from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
 import NfcManager, { Ndef, NfcTech } from 'react-native-nfc-manager';
 import { useRoute } from '@react-navigation/native';
 import Config from 'react-native-config';
 import Web3 from 'web3';
 import CryptoJS from 'crypto-js';
+<<<<<<< HEAD
+=======
+
+var tempEncryptedPrivateKey;
+>>>>>>> 8526568ce5fc66ef060a2e42cd20413a34a1ec0f
 
 var tempEncryptedPrivateKey;
 
-function AccountDisplay() {
+function AccountDisplay(props) {
+  const {navigation} = props;
   const route = useRoute();
   const { data } = route.params;
   const { publicKey, oneTimeEncryptionPW, encryptedPrivateKey } = data;
@@ -45,7 +50,11 @@ function AccountDisplay() {
       const tagPayload = tagData.ndefMessage[0].payload; //isolates payload of the ndefmessage
       
       tagPayload.shift(); // removes the 0th index of the tagPayload so it is only the record written to the tag
+<<<<<<< HEAD
+      let nfcRead = await String.fromCharCode(...tagPayload); // concats the string of the tagPayload into original string
+=======
       let nfcRead = await String.fromCharCode(...tagPayload); // concats the string of the tagPayload into a single string of #s
+>>>>>>> 8526568ce5fc66ef060a2e42cd20413a34a1ec0f
 
       //console.warn(nfcRead); //print the information read from the tag
 
@@ -148,32 +157,99 @@ function AccountDisplay() {
   }
   
   return (
+<<<<<<< HEAD
+      
+    <View style={{ flex: 1, backgroundColor: '#F4F5F7' }} >
+=======
     <ImageBackground source={require('../assets/AnyWareBackground.png')}
     style={styles.backgroundImage}>
     <SafeAreaView style={[{ flex: 1 }]}>
       <Text style={styles.bannerText} selectable>{publicKey}</Text>
       <Text style={styles.bannerText}>Account Balance: {accountBalance}</Text>
+>>>>>>> 8526568ce5fc66ef060a2e42cd20413a34a1ec0f
 
-      <Text style={styles.bannerText}>Input Address:</Text>
+      <View style={styles.container}>
+      
+        <View style={styles.whiteBoxPublicKey}>
+        <View style={styles.blackSquare}>
+        <Image source={require('../assets/Logo.png')} style={styles.LogoWhiteSize}/>
+        </View>
+        <Text style={styles.publicKeyText}>Public Key</Text>
+        <Text selectable style={styles.publicKeyText2}>{publicKey}</Text>
+        
+        </View>
+        <View style={styles.blackBox}>
+        <View style={styles.whiteSquare}>
+        <Image source={require('../assets/MoneyInWalletImage.jpg')} style={styles.LogoWhiteSize}/>
+        </View>
+        <Text style={styles.amountText}>{accountBalance} ETH</Text>
+        <Text style={styles.accountBalanceText}>Account Balance</Text>
+    
+        </View>
+        
+        </View> 
+        <Text style={styles.sendMoneyText}>Manage Transaction</Text>
+        <View style={styles.whiteBoxTransaction}>
 
-      <TextInput style={styles.textInput}
-            label="Input Address to Send To"
+        <Text style={styles.inputText}>Input Address :</Text>
+
+        <TextInput
+
+            style={styles.inputBox}
+            placeholder="Input Address to Send To"
             autoComplete='off'
             autoCorrect={false}
             inputValue={accountToSend}
             onChangeText={setAccountToSend}
+<<<<<<< HEAD
+            autoCapitalize={false}
+            returnKeyType={'done'}
+            
+=======
             backgroundColor={'white'}
             color={'black'}
           />
+>>>>>>> 8526568ce5fc66ef060a2e42cd20413a34a1ec0f
 
-      <Text style={styles.bannerText}>Input Amount to Send:</Text>
+            />
+        <Text style={styles.inputText}>Input Amount:</Text>
 
-      <TextInput style={styles.textInput}
-            label="Input Amount to Send To Address"
+        <TextInput
+            style={styles.inputBox}
+            placeholder="Input Amount to Send To Address"
             autoComplete='off'
             autoCorrect={false}
             inputValue={amountToSend}
             onChangeText={setAmountToSend}
+<<<<<<< HEAD
+            autoCapitalize={false}
+            returnKeyType={'done'}
+            keyboardType={'numeric'}
+            />
+        <Button 
+          mode=  "contained" 
+          style={[styles.sendMoneyButton]}
+          onPress={() => {
+              signTransaction();
+              }}>
+            <Text style={styles.sendMoneyButtonText}>
+              Send Money
+            </Text>
+        </Button>
+
+        <Button 
+            mode="contained"
+            style={styles.smallBtn}
+            onPress={() => {
+            navigation.navigate('Home');
+            }}>
+            <Text style={styles.buttonText}>
+              Start Over
+            </Text>
+        </Button>
+
+        <Modal  
+=======
             backgroundColor={'white'}
             color={'black'}
           />
@@ -200,6 +276,7 @@ function AccountDisplay() {
       </View>
     
       <Modal  
+>>>>>>> 8526568ce5fc66ef060a2e42cd20413a34a1ec0f
         visible = {modalVisible}>
           <View 
             backgroundColor={'black'}
@@ -223,8 +300,12 @@ function AccountDisplay() {
           </View>
         </Modal>
 
-    </SafeAreaView>
-    </ImageBackground>
+        </View>
+
+    
+      
+</View>
+  
   );
 }
 
@@ -235,9 +316,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   bannerText: {
-    fontSize: 30,
+    fontSize: 20,
     textAlign: 'center',
-    color: 'white',
+    color: 'black',
     fontVariant: 'small-caps',
     fontWeight: 'bold',
     padding: 20,
@@ -254,11 +335,32 @@ const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
   },
-  btn: {
-    width: 250,
-    marginBottom: 15,
-    color: 'black',
+  smallBtn: {
+    width: 200,
+    height: 40,
+    marginLeft: 55,
+    color: 'wblack',
+    borderRadius: 15,
+    borderWidth: 2,
+    borderColor: '#9F9D9D',
     backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bigBtn: {
+    width: 250,
+    height: 70,
+    marginBottom: 15,
+    color: 'white',
+    backgroundColor: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    fontSize: 10,
+    color: 'black',
+    fontWeight: '500',
+    fontVariant: 'small',
   },
   textInput: {
     padding: 20,
@@ -326,7 +428,349 @@ const styles = StyleSheet.create({
     color: '#777',
     fontSize: 12,
   },
+  container: {
+    flex:0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  textContainer2: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingLeft:35,
+    flexDirection: 'row', 
+    alignItems: 'center', 
+    paddingHorizontal: 1,  
+  },
+
+  imageAlignment: {
+    width: 250,
+    height: 200,
+    alignItems:'center',
+    justifyContent:'center',
+    marginTop: 70,
+    marginLeft: 0,
+  },
+
+  
+  whiteBoxPublicKey: {
+    width: 365,
+    height: 140,
+    marginBottom: 0,
+    marginTop: 15,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingRight: 165,
+    shadowColor: "#989AA0",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.04,
+    shadowRadius: 1.84,
+    elevation: 5,
+  },
+
+
+  blackBox: {
+    width: 365,
+    height: 140,
+    marginBottom: 0,
+    marginTop: 25,
+    backgroundColor: 'black',
+    borderRadius: 10,
+    paddingTop: 20,
+    paddingLeft: 20,
+    paddingRight: 20,
+    shadowColor: "#989AA0",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.04,
+    shadowRadius: 1.84,
+    elevation: 5,
+  },
+
+  blackSquare: {
+    width: 100,
+    height: 100,
+    marginBottom: 0,
+    backgroundColor: 'black',
+    borderRadius: 10,
+    paddingTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: "#989AA0",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.04,
+    shadowRadius: 1.84,
+    elevation: 5,
+  },
+
+  whiteSquare: {
+    width: 100,
+    height: 100,
+    marginBottom: 0,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    paddingTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: "#989AA0",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.04,
+    shadowRadius: 1.84,
+    elevation: 5,
+  },
+
+
+  LogoWhiteSize:{
+    width:90,
+    height:90,
+  },
+  
+publicKeyText: {
+    fontSize: 24,
+    fontWeight:'500',
+    color: 'black',
+    position: 'absolute',
+    top: 30,
+    left: 140,
+  },
+
+  publicKeyText2:{
+    color:'#BABABA', 
+    fontSize: 15,
+    position: 'absolute',
+    top: 65,
+    left: 140,
+    textAlign:"left"
+   
+  },
+  amountText:{
+    fontSize: 36,
+    fontWeight:'700',
+    color: 'white',
+    position: 'absolute',
+    top: 32,
+    left: 140,
+
+  },
+
+  accountBalanceText:{
+    fontSize: 19,
+    fontWeight:'400',
+    color: '#D9D9D9',
+    position: 'absolute',
+    top: 72,
+    left: 140,
+
+  },
+
+  
+  exportKeyButton: {
+    width: 150,
+    height: 45,
+    borderRadius:12, 
+    borderColor:'gray',
+    color: 'white',
+    borderWidth: 1,
+    backgroundColor: 'Black',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: -30,
+    marginLeft: 240,
+  },
+
+
+      arrowPosition: {
+        position: 'absolute',
+        top: 60,  
+        left: 15,
+
+      },
+
+
+      homeText: {
+        color:'#009DFF', 
+        fontSize: 20,
+        paddingLeft:40,
+        marginTop: 60,
+      },
+
+      exportKeyText: {
+        fontSize: 19,
+        color:'#9D9A9A',
+        fontWeight:'400',
+        fontVariant:'small',
+        marginBottom: 15,
+        marginLeft: 17,
+
+      },
+
+      whiteBoxTransaction: {
+        width: 365,
+        height: 365,
+        marginBottom: 0,
+        marginTop: 15,
+        marginLeft: 25,
+        backgroundColor: 'white',
+        borderRadius: 5,
+        paddingTop: 20,
+        paddingLeft: 20,
+        paddingRight: 165,
+        shadowColor: "#989AA0",
+        shadowOffset: {
+          width: 0,
+          height: 5,
+        },
+        shadowOpacity: 0.04,
+        shadowRadius: 1.84,
+        elevation: 5,
+      },
+
+      sendMoneyText: {
+        fontSize: 21,
+        fontWeight:'500',
+        color: '#5D6994',
+        textAlign: 'left',
+        marginLeft: 25,
+        marginTop: 40,
+    
+    
+      },
+
+      inputText:{
+        fontSize: 18,
+        fontWeight:'500',
+        color: 'black',
+        textAlign: 'left',
+        marginLeft: 7,
+        marginTop: 5,
+        marginBottom: 7,
+
+
+      },
+
+      inputBox: {
+        width: 320,
+        height: 30,
+        borderColor: '#9F9D9D',
+        borderRadius: 5,
+        borderWidth: 2,
+        backgroundColor: 'white',
+        padding: 10,
+        marginBottom: 20,
+        fontSize: 16,
+      },
+
+      sendMoneyButton: {
+        width: 320,
+        height: 55,
+        marginBottom: 5,
+        marginTop: 5,
+        borderRadius:15, 
+        color: 'white',
+        backgroundColor: 'black',
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+
+      sendMoneyButtonText: {                
+        fontSize: 20,
+        color: 'white',
+        fontWeight:'500',
+        fontVariant:'small',
+      },
+
 });
 
 export default AccountDisplay;
 
+<<<<<<< HEAD
+
+
+
+// Buttons from original UI
+
+{/* <Text style={styles.bannerText}>Public Key: </Text>
+      <Text style={styles.bannerText} selectable>{publicKey}</Text>
+      <Text style={styles.bannerText}>Account Balance: {accountBalance}</Text>
+
+      <Text style={styles.bannerText}>Input Address:</Text>
+
+      <TextInput style={styles.textInput}
+            label="Input Address to Send To"
+            autoComplete='off'
+            autoCorrect={false}
+            inputValue={accountToSend}
+            onChangeText={setAccountToSend}
+            autoCapitalize={false}
+            backgroundColor={'grey'}
+            color={'white'}
+            returnKeyType={'done'}
+          />
+
+      <Text style={styles.bannerText}>Input Amount to Send:</Text>
+
+      <TextInput style={styles.textInput}
+            label="Input Amount to Send To Address"
+            autoComplete='off'
+            autoCorrect={false}
+            inputValue={amountToSend}
+            onChangeText={setAmountToSend}
+            autoCapitalize={false}
+            backgroundColor={'grey'}
+            color={'white'}
+            returnKeyType={'done'}
+            keyboardType={'numeric'}
+          />
+
+      <View style={styles.wrapper}>
+        <Button 
+              mode="contained" 
+              style={styles.bigBtn} 
+              onPress={() => {
+              signTransaction();
+              }}>
+              <Text style={styles.buttonText}>
+                Sign/Send
+              </Text> 
+        </Button>
+
+        <Button 
+              mode="contained" 
+              style={styles.bigBtn} 
+              onPress={() => {
+                web3.eth.getBalance(publicKey, (err, bal) => {
+                setAccountBalance(web3.utils.fromWei(bal.toString(), 'ether'));
+                });;
+              }}>
+              <Text style={styles.buttonText}>
+              Refresh Balance
+              </Text> 
+              
+        </Button>
+
+        <Button 
+            mode="contained"
+            style={styles.smallBtn}
+            onPress={() => {
+            navigation.navigate('Home');
+            }}>
+            <Text style={styles.buttonText}>
+              Start Over
+            </Text>
+        </Button>
+      </View> */}
+=======
+>>>>>>> 8526568ce5fc66ef060a2e42cd20413a34a1ec0f

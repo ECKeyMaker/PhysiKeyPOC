@@ -2,37 +2,69 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, ImageBackground, Modal} from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
 import NfcManager, { Ndef, NfcTech } from 'react-native-nfc-manager';
+import '../../shimeth.js';
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
 import '../../shim.js';
+=======
+import './shim.js';
+import Bitcoin from 'react-native-bitcoinjs-lib';
+>>>>>>> 4a15ca1 (Added all the dependences for React-Native-Bitcoin)
+=======
+import '../../shim.js';
+import Bitcoin  from 'react-native-bitcoinjs-lib';
+>>>>>>> 24cad9e (Working react-native-BitcoinJS-lib dependency)
+=======
+import '../../shim.js';
+import Bitcoin  from 'react-native-bitcoinjs-lib';
+>>>>>>> 24cad9e (Working react-native-BitcoinJS-lib dependency)
 import Web3 from 'web3';
+<<<<<<< HEAD
+import CryptoJS from 'crypto-js';
+import { ec as EC } from 'elliptic';
+import * as bitcoin from 'bitcoinjs-lib';
+import argon2 from 'react-native-argon2';
+=======
+import { createHash } from 'react-native-crypto';
+import { ec as EC } from 'elliptic';
 
-let finalDataChain = 'anywarewallet'; // append all inputValues to this variable
+>>>>>>> 16f3b3c (Started the Bitcoin Address / Private Key)
+
+
+let finalDataChain = ''; // append all inputValues to this variable
+var tempDataChain = '';
+var salt = 'BklcooclkncUhnaiianhUcnklcooclkB';
 var web3 = new Web3(Web3.givenProvider);
-var privateKey = '';
-var publicKey = '';
+var privateKeyETH = '';
+var publicKeyETH = '';
+var privateKeyBTC = '';
+<<<<<<< HEAD
+var addressBTC = '';
+var addressNativeSegWit = '';
+var kdf = CryptoJS.algo.PBKDF2.create({ keySize: 8, hasher: CryptoJS.algo.SHA256, iterations: 1024 });
+const ec = new EC('secp256k1');
+const testnet = bitcoin.networks.testnet;
+=======
+var publicKeyBTC = '';
+>>>>>>> 16f3b3c (Started the Bitcoin Address / Private Key)
 
 function RawKeys(props) {
+  const {navigation} = props;
 
-  const [inputValue='', setInputValues] = React.useState();
+  const [inputTextValue='', setInputTextValues] = React.useState();
+
   const [modalVisible=false, setModalVisible] = React.useState();
   const showModal = () => setModalVisible(true);
   const hideModal = () => setModalVisible(false);
 
-  //userInput();
-  async function writeNdef() {
-    let scheme = '';
-    const nfcInput = Ndef.uriRecord(`${scheme}${inputValue}`);
-    const bytes = Ndef.encodeMessage([nfcInput]);
-    //console.warn(bytes);
+  const [keyStatusModal=false, setKeyStatusModal] = React.useState();
+  const showKeyStatusModal = () => setKeyStatusModal(true);
+  const hideKeyStatusModal = () => setKeyStatusModal(false);
 
-    try {
-      await NfcManager.requestTechnology(NfcTech.Ndef);
-      await NfcManager.ndefHandler.writeNdefMessage(bytes);
-    } catch (ex) {
-      // bypass
-    } finally {
-      NfcManager.cancelTechnologyRequest();
-    }
-  }
+  const [textCount, setTextCount] = React.useState(0);
+  const [numCount, setNumCount] = React.useState(0);
+  const [tagCount, setTagCount] = React.useState(0);
 
   async function readNdef() {
     try{
@@ -43,15 +75,14 @@ function RawKeys(props) {
       //console.warn({tagData}); //print whole tag data
       //console.log(tagData.ndefMessage[0].payload); // print only payload
       
-      // turns payload into a single string of numbers without ,'s:
+      // turns payload into a single string of numbers with ,'s:
       const tagPayload = tagData.ndefMessage[0].payload; //isolates payload of the ndefmessage
-      
       tagPayload.shift(); // removes the 0th index of the tagPayload so it is only the record written to the tag
-      let nfcRead = await tagPayload.join(''); // concats the string of the tagPayload into a single string of #s
 
-      //console.warn(nfcRead); //print the information read from the tag
+      const sum = tagPayload.reduce((acc, curr) => acc + curr, 0);
 
-      finalDataChain += nfcRead;
+      tempDataChain += tagPayload + sum;
+      console.warn(tempDataChain);
 
     } catch (ex) {
         //bypass
@@ -61,115 +92,313 @@ function RawKeys(props) {
   }
 
   return (
-    <ImageBackground source={require('../assets/AnyWareBackground.png')}
-    style={styles.backgroundImage}>
       <View style={styles.wrapper}>
+      <Text style={styles.bannerText}>
+        
+        Input Count: 
+        {'\n'}
+        Text: {textCount}
+        {' '}Num: {numCount}
+        {' '}Tag: {tagCount}
+
+        
+        </Text>
         <View style={[styles.textInput]}>
 
           <TextInput
-            label="Add Text to Input or Tag"
+            style={styles.textInput}
+            label="Add Text to Input"
             autoComplete='off'
             autoCorrect={false}
+<<<<<<< HEAD
+            inputValue={inputTextValue}
+            onChangeText={setInputTextValues}
+            autoCapitalize={false}
+            backgroundColor={'grey'}
+            color={'white'}
+            returnKeyType={'done'}
+=======
             inputValue={inputValue}
             onChangeText={setInputValues}
             backgroundColor={'white'}
             color={'black'}
+>>>>>>> 8526568ce5fc66ef060a2e42cd20413a34a1ec0f
           />
           
           <Button 
             mode="contained" 
-            style={styles.btn} 
+            style={styles.smallBtn} 
             onPress={() => {
-            finalDataChain += inputValue;
-            }}>
-            Add to Input
+              tempDataChain += inputTextValue;
+              console.warn(tempDataChain);
+              finalDataChain += kdf.compute(tempDataChain, salt).toString();
+              console.warn(finalDataChain);
+              tempDataChain = finalDataChain;
+              setTextCount(textCount+1); // plain text input count ++
+            }
+            }>
+            <Text style={styles.buttonText}>
+              Raw Text Input
+            </Text>
           </Button>
 
           <Button 
             mode="contained" 
-            style={styles.btn} 
-            onPress={writeNdef}
-            >
-            Write to Tag
+            style={styles.smallBtn} 
+            onPress={() => {
+            for (let i = 0; i < inputTextValue.length; i++) {
+              tempDataChain += inputTextValue.charCodeAt(i);
+              tempDataChain += inputTextValue.charAt(i); 
+            }
+            console.warn(tempDataChain);
+            finalDataChain += kdf.compute(tempDataChain, salt).toString();
+            console.warn(finalDataChain);
+            tempDataChain = finalDataChain;
+            setNumCount(numCount+1); //Encoded input count ++
+            }}>
+            <Text style={styles.buttonText}>
+              Encoded Input
+            </Text>
           </Button>
 
           <Button 
           mode="contained" 
-          style={[styles.btn]}
-          onPress={() => {
-            readNdef();
+          style={[styles.smallBtn]}
+          onPress={ async () => {
+            await readNdef();
+            finalDataChain += kdf.compute(tempDataChain, salt).toString();
+            console.warn(finalDataChain);
+            tempDataChain = finalDataChain;
+            setTagCount(tagCount+1); // Tag input count ++
           }}>
-            Input From Tag
-          </Button>
-        
-          <Button 
-          mode="contained" 
-          style={styles.btn} 
-          onPress={() => {
-              console.warn(finalDataChain);
-              // insert go to done screen to print private/public key pair;
-            }
-          }>
-            Check Input
+            <Text style={styles.buttonText}>
+              Input From Tag
+            </Text>
           </Button>
 
         </View>
 
         <View style={styles.bottom}>
+
+        <Button 
+          mode="contained" 
+          style={styles.smallBtn} 
+          onPress={() => {
+              console.warn(finalDataChain);
+              console.warn(tempDataChain);
+              // insert go to done screen to print private/public key pair;
+            }
+          }>
+            <Text style={styles.buttonText}>
+              Check Input
+            </Text>
+          </Button>
+
+          <Button 
+          mode="contained" 
+          style={styles.smallBtn} 
+          onPress={() => {
+              finalDataChain = '';
+              tempDataChain = '';
+              setNumCount(0);
+              setTagCount(0);
+              setTextCount(0);
+              // insert go to done screen to print private/public key pair;
+            }
+          }>
+            <Text style={styles.buttonText}>
+              Clear Input
+            </Text>
+          </Button>
         
         <Button 
         mode="contained" 
-        style={styles.btn} 
-        onPress={() => {
+        style={styles.bigBtn} 
+        onPress={ async () => {
 
+<<<<<<< HEAD
+          showKeyStatusModal();
+
+          console.warn('temp data chain before argon: ' + tempDataChain);
+          const argonResult = await argon2(
+              tempDataChain,
+              salt,
+              {
+                iterations:5,
+                memory: 65536,
+                parallelism: 2,
+                mode: 'argon2id'
+              }
+          ); 
+          console.warn(argonResult);
+          finalDataChain = argonResult.rawHash;
+
+=======
+>>>>>>> 16f3b3c (Started the Bitcoin Address / Private Key)
+          // Eth address creation:
           const innerHash = web3.utils.keccak256(finalDataChain);
-          privateKey = web3.utils.keccak256(innerHash + finalDataChain);
+          privateKeyETH = web3.utils.keccak256(innerHash + finalDataChain);
 
-          const accountObject = web3.eth.accounts.privateKeyToAccount(privateKey);
-          publicKey = accountObject.address;
+<<<<<<< HEAD
+          var accountObjectETH = web3.eth.accounts.privateKeyToAccount(privateKeyETH);
+          publicKeyETH = accountObjectETH.address;
 
-          console.warn("Private Key Test: " + accountObject.privateKey + "   Public Key: " + accountObject.address);
+          console.warn("ETH Private Key Test: " + accountObjectETH.privateKey + "   ETH Public Key: " + accountObjectETH.address);
 
-            // insert modal to done screen to print private/public key pair;
+          //BTC address creation:
+=======
+          const accountObject = web3.eth.accounts.privateKeyToAccount(privateKeyETH);
+          publicKeyETH = accountObject.address;
 
-          finalDataChain = 'anywarewallet'; //clear finalDataChain
+          console.warn("ETH Private Key Test: " + accountObject.privateKey + "   ETH Public Key: " + accountObject.address);
 
+          //BTC address creation:
+
+          const sha256 = (message) => createHash('sha256').update(message).digest();
+
+          const generateKeyPair = () => {
+            const ec = new EC('secp256k1');
+            const firstHash = sha256(finalDataChain);
+            privateKeyBTC = sha256(firstHash + finalDataChain);
+            publicKeyBTC = ec.keyFromPrivate(privateKeyBTC).getPublic();
+            return { privateKeyBTC: privateKeyBTC.toString('hex'), publicKeyBTC: publicKeyBTC.toString('hex') };
+          };
+
+          privateKeyBTC, publicKeyBTC = generateKeyPair();
+          console.warn("BTC Private Key: " + privateKeyBTC + "   BTC Public Key: " + publicKeyBTC);
+
+          
+            
+>>>>>>> 16f3b3c (Started the Bitcoin Address / Private Key)
+
+          const firstHash = CryptoJS.SHA256(finalDataChain).toString();
+          privateKeyBTC = CryptoJS.SHA256(firstHash + finalDataChain).toString();
+
+<<<<<<< HEAD
+          // wif encoding privateKeyBTC = wif.encode(128, Buffer.from(secondHash, 'hex'), true);
+          var accountObjectBTC = ec.keyFromPrivate(privateKeyBTC);
+          addressBTC = accountObjectBTC.getPublic('hex');
+
+          var compressedPublicKeyBTC = accountObjectBTC.getPublic(true, 'hex'); // Compressed public key
+
+          var { address } = bitcoin.payments.p2wpkh({ pubkey: Buffer.from(compressedPublicKeyBTC, 'hex'), network: testnet });
+          addressNativeSegWit = address;
+
+          console.warn("BTC Private Key: " + privateKeyBTC + "   Address: " + addressBTC + "SegWit: " + address);
+
+          finalDataChain = ''; //clear finalDataChain
+          tempDataChain = ''; //clear tempDataChain
+          accountObjectBTC = null;
+          accountObjectETH = null;
+
+          // insert modal to done screen to print private/public key pair;
+          
+=======
+          const keypair = Bitcoin.ECPair.makeRandom();
+          console.warn(keypair.getAddress());
+
+<<<<<<< HEAD
+>>>>>>> 4a15ca1 (Added all the dependences for React-Native-Bitcoin)
+=======
+          // insert modal to done screen to print private/public key pair;
+>>>>>>> 16f3b3c (Started the Bitcoin Address / Private Key)
           showModal();
+          hideKeyStatusModal();
 
           }
         }>
-          Show Raw Keys
+          <Text style={styles.buttonText}>
+              Show Raw Keys
+          </Text>
         </Button>
+
+        <Button 
+          mode="contained" 
+          style={styles.bigBtn} 
+          onPress={() => {
+              finalDataChain = '';
+              tempDataChain = '';
+              setNumCount(0);
+              setTagCount(0);
+              setTextCount(0);
+              navigation.navigate('Home');
+            }
+          }>
+            <Text style={styles.buttonText}>
+              Home
+            </Text>
+          </Button>
 
         <Modal  
         visible = {modalVisible}>
           <View 
-            backgroundColor={'black'}
+            backgroundColor={'white'}
             style={styles.wrapper}
             borderRadius={10}>
           <Text style={styles.bannerText} selectable>
+<<<<<<< HEAD
+            BTC Address(WIF Format): 
+=======
             Private Key:
+>>>>>>> 8526568ce5fc66ef060a2e42cd20413a34a1ec0f
             {'\n'}
-            {privateKey}
+<<<<<<< HEAD
+            {addressBTC}
+          </Text>
+          <Text style={styles.bannerText} selectable>
+            BTC Address(Native SegWit): 
+=======
+            {privateKeyETH}
+>>>>>>> 16f3b3c (Started the Bitcoin Address / Private Key)
             {'\n'}
-            Public Key: 
+            {addressNativeSegWit}
+          </Text>
+          <Text style={styles.bannerText} selectable>
+            BTC Private Key(WIF Format):
             {'\n'}
-            {publicKey}
+<<<<<<< HEAD
+            {privateKeyBTC}
+          </Text>
+          <Text style={styles.bannerText} selectable>
+            ETH Public Key: 
+            {'\n'}
+            {publicKeyETH}
+          </Text>
+          <Text style={styles.bannerText} selectable>
+            ETH Private Key:
+            {'\n'}
+            {privateKeyETH}
+=======
+            {publicKeyETH}
+>>>>>>> 16f3b3c (Started the Bitcoin Address / Private Key)
             {'\n'}
           </Text>
           <Button 
             mode="contained"
-            style={styles.btn}
-            onPress={hideModal}>
-            Hide Keys
+            style={styles.bigBtn}
+            onPress={() => {
+            navigation.navigate('Home');
+            }}>
+            <Text style={styles.buttonText}>
+              Start Over
+            </Text>
           </Button>
+          </View>
+        </Modal>
+
+        <Modal  
+          visible = {keyStatusModal}>
+            <View 
+              style={styles.wrapper}
+              borderRadius={10}>
+            <Text style={styles.bannerText} selectable>Creating Keys...</Text>
+            
           </View>
         </Modal>
 
       </View>
 
       </View>
-    </ImageBackground>
     );
 
 }
@@ -179,17 +408,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  backgroundImage: {
-    flex: 1,
+    backgroundColor: 'white',
   },
   textInput: {
-    padding: 20,
+    paddingHorizontal: 20,
   },
   bannerText: {
     fontSize: 20,
     textAlign: 'center',
-    color: 'white',
+    color: 'black',
     fontVariant: 'small-caps',
     fontWeight: 'bold',
     padding: 20,
@@ -198,11 +425,29 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 40,
   },
-  btn: {
-    width: 250,
+  smallBtn: {
+    width: 200,
+    height: 50,
     marginBottom: 15,
-    color: 'black',
-    backgroundColor: 'white',
+    color: 'white',
+    backgroundColor: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bigBtn: {
+    width: 250,
+    height: 70,
+    marginBottom: 15,
+    color: 'white',
+    backgroundColor: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    fontSize: 20,
+    color: 'white',
+    fontWeight: 'bold',
+    fontVariant: 'small-caps',
   },
   modal: {
     flex: 1,
